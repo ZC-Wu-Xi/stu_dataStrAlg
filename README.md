@@ -1,3 +1,5 @@
+[java数据结构与算法——动力节点24课程传送门->b站](https://www.bilibili.com/video/BV1tU411U7SF?p=1&vd_source=796ed40051b301bfa3a84ba357f4828c)
+
 # Ⅰ. 数据结构和算法概述
 
 ## 一. 数据结构和算法介绍
