@@ -98,6 +98,7 @@
 **需求**:计算 1 到 100 的和。
 
 **解法:**
+
 <img src="./MDImg/image-20240824131505951.png" alt="image-20240824131505951" style="zoom:87%;" />
 
 上面这个例子中， 如果我们要精确的研究循环的条件执行了多少次， 是一件很麻烦的事情， 并且， 由于真正计算和代码内循环的循环体， 所以， 在**研究算法的效率时**， 我们**只考虑核心代码的执行次数**， 这样可以简化分析。我们研究算法复杂度， **侧重的是当输入规模不断增大时， 算法的增长量的一个抽象(规律)**， 而不是精确地定位需要执行多少次， 因为如果是这样的话， 我们又得考虑回编译期优化等问题，容易主次跌倒。  
@@ -560,7 +561,7 @@ public static int[] reverse2(int[]arr){
 
 排序也称之为排序算法（Sort Algorithm） ，是讲一组数据以指定的顺序进行排列的过程。Java 提供了一个接口 `Comparable `就是用来定义排序规则的， 在这里我们以案例的形式对Comparable 接口做一个简单的回顾。
 
-[文件位置](.\src\main\java\com\xi\A0排序算法)
+[代码](.\src\main\java\com\xi\Demo)
 
 ```java
 @Getter
@@ -623,11 +624,9 @@ public class TestApp {
 
 ### 基数排序介绍
 
+#### 基数排序思想及演示
+
 基数排序（radix sort） 属于“分配式排序” （distribution sort） ， 又称“桶子法”思想是将整数按位数切割成不同的数字， 然后按每个位数分别比较。
-
-### 基数排序思想
-
-#### 基数排序介绍及演示
 
 将所有的待比较数值统一设置为同样的数位长度， **位数比较短的数前面补零**， **然后从最低位开始依次进行一次排序**， 这样从最低位排序一直到最高位排序完成以后， 数列就变成一个有序序列
 
@@ -660,11 +659,13 @@ public class TestApp {
    ![image-20240824151338236](./MDImg/image-20240824151338236.png)
    按照百位数放入桶中的顺序是： {3, 14，53，214，542，728}
 
+### 基数排序案例
+
 #### 基数排序案例一
 
 <img src="./MDImg/image-20240825123104006.png" alt="image-20240825123104006" style="zoom:80%;" />
 
-[代码](.\src\main\java\com\xi\A1sort基数排序)：  用集合写
+[代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用集合写
 
 ```java
 private static final int[] array = {53, 3, 542, 728, 14, 214};
@@ -721,7 +722,7 @@ public static int[] sort(int[] array) {
 
 ![image-20240825140952304](./MDImg/image-20240825140952304.png)
 
-[代码](.\src\main\java\com\xi\A1sort基数排序)：  用二维数组写
+[代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用二维数组写
 
 ```java
 /**
@@ -759,6 +760,110 @@ public static int[] sort2(int[] array) {
                 array[index++] = buckets[j][k];// 取出桶内元素
             }
             bucketsElementCount[j] = 0;// 取出后桶内元素为0
+        }
+    }
+    return array;
+}
+```
+
+## 三. 冒泡排序
+
+### 冒泡排序介绍
+
+#### 冒泡排序思想及演示
+
+冒泡排序的思想是通过对待排序序列从前往后依次比较相邻元素值， 若发现逆序则交换， 使值较大的元素从前逐步移向后面， 就像水中气泡。
+
+:arrow_down::arrow_down:点击页面上方`BUB`演示**冒泡排序**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+#### 例子
+
+假设待排序序列`[5,1,4,2,8]`， 如果采用冒泡排序对其进行升序(由小到大)排序， 则整个排序过程如下所示:
+
+1. 第一轮排序， 此时整个序列中的元素都位于待排序序列， 依次扫描每对相邻的元素， 并对顺序不正确的元素对交换位置， 整个过程如图所示。
+
+   ![image-20240825160227108](./MDImg/image-20240825160227108.png)
+
+   从图可以看到， 经过第一轮冒泡排序， 从待排序序列中找出了最大数 8， 并将其放到了待排序序列的尾部， 并入已排序序列中。
+
+2. 第二轮排序， 此时待排序序列只包含前 4 个元素， 依次扫描每对相邻元素， 对顺序不正确的元素对交换位置， 整个过程如图所示。
+
+   ![image-20240825160350650](./MDImg/image-20240825160350650.png)
+
+   经过第二轮冒泡排序， 从待排序序列中找出最大值 5， 将其放入待排序序列尾部
+
+3. 第三轮排序， 此时待排序序列包含前 3 个元素， 依次扫描每对相邻元素， 对顺序不正确的元素对交换位置， 整个过程如图所示。
+
+   ![image-20240825160452711](./MDImg/image-20240825160452711.png)
+
+   经过第三轮排序， 找出最大值 4， 将其放入待排序序列中
+
+4. 第四轮排序， 此时待排序序列包含前 2 个元素， 对其进行冒泡排序
+
+   ![image-20240825160525937](./MDImg/image-20240825160525937.png)
+
+   经过第三轮排序， 找出最大值 2， 将其放入待排序序列中
+   第四轮排序， 此时待排序序列只有 1 个元素， 无需再进行相邻元素比较， 因此直接将其并入已排序序列中即可。
+
+   ![image-20240825160611262](./MDImg/image-20240825160611262.png)
+
+![image-20240825160638117](./MDImg/image-20240825160638117.png)
+
+特点：
+
+1. 需要循环 `array.length-1` 次外层循环
+2. 每次排序的次数逐步递减
+3. 也可能存在本次排序没有发生变化
+
+### 冒泡排序案例
+
+#### 冒泡排序案例一
+
+[代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
+
+冒泡排序：
+
+```java
+public static int[] sort(int[] array) {
+    int temp = 0;// 第三方变量 用于冒泡时交换位置
+    for (int i = 0; i < array.length-1; i++) {
+        for (int j = 0; j < array.length-1-i; j++) {// 每次比较完了会少一个待排序序列
+            if (array[j] > array[j+1]) {// 前面的比后面大，交换位置
+                temp = array[j];
+                array[j] = array[j+1];
+                array[j+1] = temp;
+            }
+        }
+    }
+    return array;
+}
+```
+
+#### 冒泡排序案例二
+
+[代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
+
+冒泡排序**优化**，如果上一轮都是有序的将不在进行后面轮次的比对：
+
+```java
+public static int[] sort(int[] array) {
+    System.out.println("排序前：" + Arrays.toString(array));
+    int temp = 0;// 第三方变量 用于冒泡时交换位置
+    for (int i = 0; i < array.length-1; i++) {
+        boolean flag = false;// 经过一轮排序是否交换过位置
+        for (int j = 0; j < array.length-1-i; j++) {// 每次比较完了会少一个待排序序列
+            if (array[j+1] < array[j]) {// 后面的小于前面的，交换位置
+                temp = array[j];
+                array[j] = array[j+1];
+                array[j+1] = temp;
+                flag = true;// 标记这一轮比对交换过位置
+            }
+        }
+        System.out.println("第" + (i+1) + "轮排序结果：" + Arrays.toString(array));
+        if (flag == false) {// 这一轮没有交换过位置，不再进行后面轮次的比对
+            break;
         }
     }
     return array;

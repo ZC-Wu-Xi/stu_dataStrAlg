@@ -1,12 +1,12 @@
-package com.xi.A1sort基数排序;
+package com.xi.sort排序算法;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * @author Wu
+ * @author ZC_Wu 汐
  * @date 2024/8/25 12:36:32
- * @description 基数排序|桶子法 案例一：用集合写，案例二：用二维数组写
+ * @description 基数排序|桶子法 升序 案例一：用集合写，案例二：用二维数组写
  *  首先确定最大值的位数；
  *  依次取出每个待排序数据的个位数的值，每个待排序数据按照个位数的值放入指定的桶(0-9九个桶对应个位数的值)中，所有值都放入桶中后将桶中的值依次拿出来并清空桶中数据，拿出来的值形成的只按个位数排序的值；
  *  然后对拿出的值进行十位、百位...的相同操作，直至排到待排序数据的最大位数，此时取出的值就是拍好的值
@@ -15,9 +15,21 @@ public class BasicSort {
     //测试数据
     private static final int[] array1 = {53, 3, 542, 728, 14, 214};
     private static final int[] array2 = {53, 542, 3, 63, 14, 214, 154, 748, 751, 1616};
+
+    public static void main(String[] args) {
+        System.out.println("案例一: 基数排序，集合方式");
+        int[] sort1 = sort1(array1);// 测试数据：array1，array2
+        System.out.println("排序后：" + Arrays.toString(sort1));
+        System.out.println("---------------------------------------------");
+
+        System.out.println("案例二：基数排序，二维数组方式");
+        int[] sort2 = sort2(array2);// 测试数据：array1，array2
+        System.out.println("排序后：" + Arrays.toString(sort2));
+    }
+
     /**
-     * 基数排序算法 案例一
-     * 用集合写
+     * 基数排序 升序
+     * 案例一：用集合写
      * @param array
      * @return
      */
@@ -67,8 +79,8 @@ public class BasicSort {
     }
 
     /**
-     * 基数排序算法 案例二
-     * 用二维数组写
+     * 基数排序 升序
+     * 案例二：用二维数组写
      * @param array
      * @return
      */
@@ -108,14 +120,5 @@ public class BasicSort {
         return array;
     }
 
-    public static void main(String[] args) {
-        System.out.println("案例一: 基数排序，集合方式code");
-        int[] sort1 = sort1(array1);// 测试数据：array1，array2
-        System.out.println("排序后：" + Arrays.toString(sort1));
-        System.out.println("---------------------------------------------");
 
-        System.out.println("案例二：基数排序，二维数组方式code");
-        int[] sort2 = sort2(array2);// 测试数据：array1，array2
-        System.out.println("排序后：" + Arrays.toString(sort2));
-    }
 }

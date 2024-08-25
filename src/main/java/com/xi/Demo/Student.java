@@ -1,4 +1,4 @@
-package com.xi.A0排序算法;
+package com.xi.Demo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author Wu
+ * @author ZC_Wu 汐
  * @date 2024/8/24 12:26:58
  * @description 排序算法介绍
  * 使用官方提供的Comparable接口进行排序

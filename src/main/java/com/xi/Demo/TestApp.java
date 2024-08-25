@@ -1,7 +1,7 @@
-package com.xi.A0排序算法;
+package com.xi.Demo;
 
 /**
- * @author Wu
+ * @author ZC_Wu 汐
  * @date 2024/8/24 12:45:40
  * @description
  */
