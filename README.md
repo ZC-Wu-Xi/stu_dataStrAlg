@@ -1,6 +1,6 @@
 # Ⅰ. 数据结构和算法概述
 
-## 一. 介绍
+## 一. 数据结构和算法介绍
 
 ***算法*:**
 
@@ -67,7 +67,7 @@
 
 ## 一. 时间和空间复杂度分析
 
-### 分析
+### 时间复杂度分析
 
 我们要计算算法时间耗费情况， 首先我们得度量算法的执行时间：
 
@@ -103,7 +103,7 @@
 
 <img src="./MDImg/image-20240824131618579.png" alt="image-20240824131618579" style="zoom:53%;" />
 
-### 测试一
+### 时间复杂度测试一
 
 **随着输入规模的增大， 算法的常数操作可以忽略不计**
 
@@ -136,7 +136,7 @@
 当输入规模 n>2 时， 算法 A1 的渐近增长小于算法 B1 的渐近增长
 通过观察折线图， 我们发现,随着输入规模的增大,算法 A1 和算法 A2 逐渐重叠到一块,算法 B1和算法 B2 逐渐重叠到一块， 所以我们得出结论:**随着输入规模的增大， 算法的常数操作可以忽略不计**
 
-### 测试二
+### 时间复杂度测试二
 
 **随着输入规模的增大,与最高次项相乘的常数可以忽略**
 
@@ -175,7 +175,7 @@
 
 因此， 可以得出结论:**随着输入规模的增大,与最高次项相乘的常数可以忽略**
 
-### 测试三
+### 时间复杂度测试三
 
 **最高次项的指数大的， 随着 n 的增长， 结果也会变得增长特别快**
 
@@ -208,7 +208,7 @@
 通过折线图我们会看到， 算法 F 系列随着 n 的增长会变得特块， 算法 E 系列随着 n 的增长相比较算法 F 来说， 变得比较慢，
 所以可以得出结论:**最高次项的指数大的， 随着 n 的增长， 结果也会变得增长特别快**
 
-### 测试四
+### 时间复杂度测试四
 
 **算法函数中 n 最高次幂越小， 算法效率越高**
 
@@ -231,7 +231,7 @@
 
 通过观察数据表格和折线图。 很容易可以得出结论的:**算法函数中 n 最高次幂越小， 算法效率越高**
 
-### 规则总结
+### 时间复杂度规则总结
 
 综上所述， 在我们比较算法随着输入规模的增长量时， 可以有以下规则: 
 
@@ -552,7 +552,7 @@ public static int[] reverse2(int[]arr){
 
 排序也称之为排序算法（Sort Algorithm） ，是讲一组数据以指定的顺序进行排列的过程。Java 提供了一个接口 `Comparable `就是用来定义排序规则的， 在这里我们以案例的形式对Comparable 接口做一个简单的回顾。
 
-[文件位置](.\src\main\java\com\xi\A排序算法)
+[文件位置](.\src\main\java\com\xi\A0排序算法)
 
 ```java
 @Getter
@@ -611,39 +611,149 @@ public class TestApp {
 }
 ```
 
-## 二. 基数排序
+## 二. 基数排序|桶子法
 
-:arrow_down_small::arrow_down_small:点击页面上方RAD演示基数排序:arrow_down_small::arrow_down_small:
-
-<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
-
-
-
-### 介绍
+### 基数排序介绍
 
 基数排序（radix sort） 属于“分配式排序” （distribution sort） ， 又称“桶子法”思想是将整数按位数切割成不同的数字， 然后按每个位数分别比较。
 
-### 思想
+### 基数排序思想
 
-讲所有的待比较数值统一设置为同样的数位长度， 位数比较短的数前面补零， 然后从最低位开始依次进行一次排序， 这样从最低位排序一直到最高位排序完成以后， 数列就变成一个有序序列
+#### 基数排序介绍及演示
 
-例如：  `int[] array = {53,3,542,728,14,214};  `
+将所有的待比较数值统一设置为同样的数位长度， **位数比较短的数前面补零**， **然后从最低位开始依次进行一次排序**， 这样从最低位排序一直到最高位排序完成以后， 数列就变成一个有序序列
 
-1. 首先确定最大数是 728（这个一定要确定） 
+:arrow_down::arrow_down:点击页面上方`RAD`演示**基数排序**:arrow_down::arrow_down:
 
-2. 确定位数后， 不足十位和百位的在前面补0 
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
 
-3. 比较数组中的个位数， 按照顺序放到对应的桶中， 每个桶都是一个一维数组， 全部放进去后， 再取出来重新排序。
+#### 基数排序例子
+
+例如：  
+
+`int[] array = {53,3,542,728,14,214};  `
+
+1. 首先**确定最大数**是 728（这个一定要确定） 
+
+2. 确定位数后， 不足十位和百位的在**前面补0** 
+
+3. **比较数组中的个位数**， 按照顺序放到对应的桶中， 每个桶都是一个一维数组， 全部放进去后， 再取出来重新排序。
    ![image-20240824151202376](./MDImg/image-20240824151202376.png)
 
    按照个位数排序放进桶中后得到的顺序为 542， 53， 3， 14， 214， 728
 
-4. 然后再依次比较十位数， 放到对应的桶中， 没有十位的前面补 0 
+4. 然后再依次**比较十位数**， 放到对应的桶中， 没有十位的前面补 0 
 
    ![image-20240824151223191](./MDImg/image-20240824151223191.png)
 
    按照十位数放入桶中得到的顺序为： 3,14， 214， 728， 542， 53  
 
-5. 依次比较百位数， 放到对应的桶中去， 没有百位的补 0 
+5. 依次**比较百位数**， 放到对应的桶中去， 没有百位的补 0 
    ![image-20240824151338236](./MDImg/image-20240824151338236.png)
-   按照百位数放入桶中的顺序是： 3,14， 53， 214， 542， 728  
+   按照百位数放入桶中的顺序是： {3, 14，53，214，542，728}
+
+#### 基数排序案例一
+
+<img src="./MDImg/image-20240825123104006.png" alt="image-20240825123104006" style="zoom:80%;" />
+
+[代码](.\src\main\java\com\xi\A1sort基数排序)：  用集合写
+
+```java
+private static final int[] array = {53, 3, 542, 728, 14, 214};
+
+/**
+  * 基数排序算法
+  * 用集合写
+  * @param array
+  * @return 排序后的值
+  */
+public static int[] sort(int[] array) {
+    // 1. 找出最大值
+    int max = 0;
+    for (int temp : array) {
+        if (temp > max) {
+            max = temp;
+        }
+    }
+    // 2. 计算最大值的位数
+    int maxDigit = 0;// 位数
+    while (max != 0) {
+        max /= 10;// 除以10
+        maxDigit++;
+    }
+    // 3. 创建0-9的桶 (创建一个集合，里面放10个桶，每个桶都是一个集合， 约定每个桶存放与该桶索引相同的指定位数值的待排序数据)
+    ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>();
+    for (int i = 0; i < 10; i++) {
+        buckets.add(new ArrayList<Integer>());
+    }
+    // 4. 从个位数到最高位数进行"最高位数"次排序
+    int moid = 10;// 定义取模数 从个位数开始取
+    int div = 1;// 定义除数 从个位数开始取
+    for (int i = 0; i < maxDigit; i++,moid*=10,div*=10) {// 控制一共取多少次位数进行排序, 每取一个值取模数和除数都*10
+        // 4.1 取指定位数的值,将值放入指定的桶中
+        for (int j = 0; j < array.length; j++) {// 对待排序的数据依次处理
+            int num = array[j] % moid / div;// 取指定位数的值 eg: 42个位数的值：42%10/1=2, 42十位数的值：42%100/10=4
+            buckets.get(num).add(array[j]);// 将值放入指定的桶中
+        }
+        // 4.2
+        int index = 0;
+        for (int j = 0; j < buckets.size(); j++) {// 对每个桶进行操作
+            ArrayList<Integer> list = buckets.get(j);// 从0号(约定索引就是编号)桶开始获取对应桶内当前的值
+            for (int k = 0; k < list.size(); k++) {// 对桶内每个数据排序
+                array[index++] = list.get(k);// 将桶内的值放入原待排序数组中，实现该位数的排序
+            }
+            buckets.get(j).clear();// 清空已取出数据的桶，留给更高位排序时使用
+        }
+    }
+    return array;
+}
+```
+
+#### 基数排序案例二
+
+![image-20240825140952304](./MDImg/image-20240825140952304.png)
+
+[代码](.\src\main\java\com\xi\A1sort基数排序)：  用二维数组写
+
+```java
+/**
+  * 基数排序算法 案例二
+  * 用二维数组写
+  * @param array
+  * @return
+  */
+public static int[] sort2(int[] array) {
+    int max = 0;
+    for (int i = 0; i < array.length; i++) {
+        if (array[i] > max) {
+            max = array[i];
+        }
+    }
+    int maxDigit = (max + "").length();// 获取最大数的位数
+
+    int[][] buckets = new int[10][array.length];// 二维数组 初始化十个桶
+    int[] bucketsElementCount = new int[10];// 0-9号桶内的元素数
+
+    int moid = 10;// 定义取模数 从个位数开始取
+    int div = 1;// 定义除数 从个位数开始取
+    // 从个位数到最高位数进行"最高位数"次排序
+    for (int i = 0; i < maxDigit; i++,moid*=10,div*=10) {// 控制一共取多少次位数进行排序, 每取一个值取模数和除数都*10
+        // 第一次比较 个位数
+        for (int j = 0; j < array.length; j++) {
+            int locationElement = array[j] % moid / div;// 个位数的值
+            buckets[locationElement][bucketsElementCount[locationElement]] = array[j];// 将元素放入桶中 在这个桶的指定索引(索引为当前元素数)处放入该元素
+            bucketsElementCount[locationElement]++;// 这个桶中的元素数+1
+        }
+        int index = 0;
+        // 取出桶中元素
+        for (int j = 0; j < buckets.length; j++) {// 对每个桶进行操作
+            for (int k = 0; k < bucketsElementCount[j]; k++) {// 桶内有几个元素就取几次
+                array[index++] = buckets[j][k];// 取出桶内元素
+            }
+            bucketsElementCount[j] = 0;// 取出后桶内元素为0
+        }
+    }
+    return array;
+}
+```
+
