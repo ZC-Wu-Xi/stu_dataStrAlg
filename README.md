@@ -872,3 +872,110 @@ public static int[] sort(int[] array) {
 }
 ```
 
+## 四. 快速排序
+
+### 快速排序介绍
+
+#### 思想
+
+快速排序是对冒泡排序的一种改进。 通过一趟排序将要排序的数据分割成独立的两部分， 其中一部分的所有数据都比另一部分所有的数据都要小， 然后再按此方法对这两部分数据分别进行快速排序， 整个排序过程可以递归进行， 以此达到整个数据变成有序序列 。
+
+:arrow_down::arrow_down:点击页面上方`QUI`演示**快速排序**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+#### 例子
+
+对以下数列按从小到大进行排序： 
+
+1. 首先，选定基准元素p，并设置左右两个指针l和r
+2. 开始循环后，从指针开始，**让指针元素与基准元素做比较**，如果**大于等于P,则r指针向左移动**；如果**小于p,则停止移动**，换到l指针。
+3. 对于当前数列，r指针元素为1,1<4，所以指针停止移动，换到指针。
+4. 换到指针后，让**l指针元素与基准元素做比较**，如果**小于等于p,则指针向右移动**；如果大于p，则停止移动。按照此思路，后续步骤如下：
+
+![image-20240904111728546](./MDImg/image-20240904111728546.png)
+
+### 快速排序案例
+
+```java
+/**
+ * @author ZC_Wu 汐
+ * @date 2024/9/4 15:58:21
+ * @description 快速排序 升序
+ * 快速排序是对冒泡排序的一种改进。 通过一趟排序将要排序的数据分割成独立的两部分，
+ * 其中一部分的所有数据都比另一部分所有的数据都要小， 然后再按此方法对这两部分数据分别进行快速排序，
+ * 整个排序过程可以递归进行， 以此达到整个数据变成有序序列
+ */
+public class QuickSort {
+    //测试数据
+    private static final int[] array1 = {2, 6, 7, 1, 4, 6, 5};
+    private static final int[] array2 = {1, 4, 6, 3, 4, 2, 7, 5, 2};
+
+    public static void main(String[] args) {
+        quickSort(array1, 0, array1.length-1);
+        System.out.println("排序后array1 = " + Arrays.toString(array1));
+        System.out.println("===============================================");
+        quickSort(array2, 0, array2.length-1);
+        System.out.println("排序后array2 = " + Arrays.toString(array2));
+    }
+
+    public static void quickSort(int[] arr, int startIndex, int endIndex) {
+        if (startIndex >= endIndex) {
+            return;
+        }
+        int pIndex = partition(arr, startIndex, endIndex);// 得到基准元素排序后的位置
+        quickSort(arr, startIndex, pIndex-1);
+        quickSort(arr, pIndex+1,  endIndex);
+    }
+
+    /**
+     * 快速排序得到基准元素完成排序后在数组中的位置 会由基准元素分割出两部分数据，左边是比基准元素小的，右边是比基准元素大的
+     * @param arr 待排序数组
+     * @param startIndex 左指针
+     * @param endIndex 右指针
+     * @return 返回基准元素的索引位置 这个索引位置就是基准元素排完序后的位置
+     */
+    public static int partition(int[] arr, int startIndex, int endIndex) {
+        int p = arr[startIndex];// 基准元素
+        System.out.print("基准元素p=" + p);
+        int l = startIndex;// 左指针
+        int r = endIndex;// 右指针
+
+        while (l != r) {
+            // 右指针执行 右指针元素与基准元素比较，满足右指针元素大于基准元素，右指针左移，直至右指针元素小于基准元素
+            while (l < r && arr[r] > p) {
+                r--;
+            }
+            // 左指针执行 左指针元素与基准元素比较，满足左指针元素小于基准元素，左指针右移，直至左指针元素大于基准元素
+            while (l < r && arr[l] <= p) {
+                l++;
+            }
+            if (l < r) {
+                // 左右指针位置的数据交换位置
+                int temp = arr[l];
+                arr[l] = arr[r];
+                arr[r] = temp;
+            }
+        }
+        // 基准元素 和 l与r重合元素 交换位置， 交换位置后生成由基准元素分割的两部分数组
+        arr[startIndex] = arr[l];
+        arr[l] = p;
+        // 返回基准元素的索引位置 这个索引位置就是基准元素排完序后的位置
+        return l;
+    }
+}
+```
+
+eg: 升序排序[1, 4, 6, 3, 4, 2, 7, 5, 2]
+
+| 次数 | startIndex | endIndex | 基准数据 | 基准数据<br />排序后索引 | 排序后数组                      |
+| ---- | ---------- | -------- | -------- | ------------------------ | ------------------------------- |
+| 1    | 0          | 8        | 1        | 0                        | [**1**, 4, 6, 3, 4, 2, 7, 5, 2] |
+| 2    | 1          | 8        | 4        | 5                        | [1, **2**, 2, 3, 4, 4, 7, 5, 6] |
+| 3    | 1          | 4        | 2        | 2                        | [1, 2, 2, **3**, 4, 4, 7, 5, 6] |
+| 4    | <u>3</u>   | <u>8</u> | 3        | 3                        | [1, 2, 2, 3, 4, 4, **7**, 5, 6] |
+| 5    | <u>4</u>   | <u>8</u> | 7        | 8                        | [1, 2, 2, 3, 4, 4, **6**, 5, 7] |
+| 6    | 4          | 7        | 6        | 7                        | [1, 2, 2, 3, 4, 4, 5, 6, 7]     |
+
+
+
