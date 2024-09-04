@@ -12,7 +12,6 @@ import java.util.Arrays;
  */
 public class QuickSort {
     //测试数据
-//    private static final int[] array1 = {2, 6, 7, 1, 4, 6, 5};
     private static final int[] array1 = {2, 4, 1, 4, 3};
     private static final int[] array2 = {1, 4, 6, 3, 4, 2, 7, 5, 2};
 

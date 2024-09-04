@@ -897,26 +897,21 @@ public static int[] sort(int[] array) {
 
 ### 快速排序案例
 
+[代码](.\src\main\java\com\xi\sort排序算法\QuickSort.java)
+
 ```java
 /**
  * @author ZC_Wu 汐
  * @date 2024/9/4 15:58:21
  * @description 快速排序 升序
- * 快速排序是对冒泡排序的一种改进。 通过一趟排序将要排序的数据分割成独立的两部分，
- * 其中一部分的所有数据都比另一部分所有的数据都要小， 然后再按此方法对这两部分数据分别进行快速排序，
- * 整个排序过程可以递归进行， 以此达到整个数据变成有序序列
  */
 public class QuickSort {
     //测试数据
-    private static final int[] array1 = {2, 6, 7, 1, 4, 6, 5};
-    private static final int[] array2 = {1, 4, 6, 3, 4, 2, 7, 5, 2};
+    private static final int[] array = {1, 4, 6, 3, 4, 2, 7, 5, 2}
 
     public static void main(String[] args) {
-        quickSort(array1, 0, array1.length-1);
-        System.out.println("排序后array1 = " + Arrays.toString(array1));
-        System.out.println("===============================================");
-        quickSort(array2, 0, array2.length-1);
-        System.out.println("排序后array2 = " + Arrays.toString(array2));
+        quickSort(array, 0, array.length-1);
+        System.out.println("排序后array = " + Arrays.toString(array));
     }
 
     public static void quickSort(int[] arr, int startIndex, int endIndex) {
@@ -968,14 +963,54 @@ public class QuickSort {
 
 eg: 升序排序[1, 4, 6, 3, 4, 2, 7, 5, 2]
 
-| 次数 | startIndex | endIndex | 基准数据 | 基准数据<br />排序后索引 | 排序后数组                      |
-| ---- | ---------- | -------- | -------- | ------------------------ | ------------------------------- |
-| 1    | 0          | 8        | 1        | 0                        | [**1**, 4, 6, 3, 4, 2, 7, 5, 2] |
-| 2    | 1          | 8        | 4        | 5                        | [1, **2**, 2, 3, 4, 4, 7, 5, 6] |
-| 3    | 1          | 4        | 2        | 2                        | [1, 2, 2, **3**, 4, 4, 7, 5, 6] |
-| 4    | <u>3</u>   | <u>8</u> | 3        | 3                        | [1, 2, 2, 3, 4, 4, **7**, 5, 6] |
-| 5    | <u>4</u>   | <u>8</u> | 7        | 8                        | [1, 2, 2, 3, 4, 4, **6**, 5, 7] |
-| 6    | 4          | 7        | 6        | 7                        | [1, 2, 2, 3, 4, 4, 5, 6, 7]     |
+| 次数  | startIndex | endIndex | 基准数据 | 基准数据<br />排序后索引 | 排序后数组                      |
+| ----- | ---------- | -------- | -------- | ------------------------ | ------------------------------- |
+| 1     | 0          | 8        | 1        | 0                        | [**1**, 4, 6, 3, 4, 2, 7, 5, 2] |
+| 2     | 1          | 8        | 4        | 5                        | [1, **2**, 2, 3, 4, 4, 7, 5, 6] |
+| 3     | 1          | 4        | 2        | 2                        | [1, 2, 2, **3**, 4, 4, 7, 5, 6] |
+| 4     | <u>3</u>   | <u>8</u> | 3        | 3                        | [1, 2, 2, 3, 4, 4, **7**, 5, 6] |
+| 5     | <u>4</u>   | <u>8</u> | 7        | 8                        | [1, 2, 2, 3, 4, 4, **6**, 5, 7] |
+| 6     | 4          | 7        | 6        | 7                        | [1, 2, 2, 3, 4, 4, 5, 6, 7]     |
+| ~~7~~ | ~~8~~      | ~~8~~    |          |                          |                                 |
 
+## 五.  插入排序
 
+### 插入排序介绍
+
+#### 思想
+
+插入排序属于内部排序， 是对于排序的元素以插入的方式寻找该元素的适当位置， 以达到排序的目的。  
+
+![image-20240904173403718](./MDImg/image-20240904173403718.png)
+
+#### 例子
+
+:arrow_down::arrow_down:点击页面上方`INS`演示**插入排序**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+### 插入排序案例
+
+[代码](.\src\main\java\com\xi\sort排序算法\InsertSort.java)
+
+```java
+public static void insertSort(int[] array) {
+    int temp;
+    for (int i = 1; i < array.length; i++) {
+        for (int j = i; j >= 1; j--) {
+            if (array[j] < array[j-1]) {
+                temp = array[j];
+                array[j] = array[j-1];
+                array[j-1] = temp;
+            } else {
+                break;
+            }
+        }
+    }
+}
+```
+
+## 六. 选择排序
+
+### 选择排序介绍
 
