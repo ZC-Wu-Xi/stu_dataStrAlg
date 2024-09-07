@@ -977,13 +977,9 @@ eg: 升序排序[1, 4, 6, 3, 4, 2, 7, 5, 2]
 
 ### 插入排序介绍
 
-#### 思想
-
 插入排序属于内部排序， 是对于排序的元素以插入的方式寻找该元素的适当位置， 以达到排序的目的。  
 
 ![image-20240904173403718](./MDImg/image-20240904173403718.png)
-
-#### 例子
 
 :arrow_down::arrow_down:点击页面上方`INS`演示**插入排序**:arrow_down::arrow_down:
 
@@ -1014,3 +1010,52 @@ public static void insertSort(int[] array) {
 
 ### 选择排序介绍
 
+第一次从待排序的数据元素中选出最小（或最大） 的一个元素， 存放在序列的起始位置，然后再从剩余的未排序元素中寻找到最小（大） 元素， 然后放到已排序的序列的末尾。 以此类推， 直到全部待排序的数据元素的个数为零。 选择排序是不稳定的排序方法。
+
+:arrow_down::arrow_down:点击页面上方`SEI`演示**选择排序**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+### 选择排序案例
+
+![image-20240907110123861](./MDImg/image-20240907110123861.png)
+
+```java
+public static void selectSort(int[] array) {
+    for (int i = 0; i < array.length-1; i++) {
+        int minIndex = i;// 遍历部分的最小值索引
+        int min = array[minIndex];
+
+        for (int j = i+1; j < array.length; j++) {// 找到遍历部分最小的值
+            if (min > array[j]) {
+                minIndex = j;
+                min = array[minIndex];
+            }
+        }
+
+        if (i != minIndex) {
+            // 最小值和基准值交换位置
+            array[minIndex] = array[i];
+            array[i] = min;
+        }
+    }
+}
+```
+
+## 七. 希尔排序
+
+### 希尔排序介绍
+
+希尔排序(Shell's Sort)是插入排序的一种又称“ 缩小增量排序” （ Diminishing Increment Sort） ， 是**排序算法的一种更高效的改进版本  **。
+
+希尔排序是把记录按下标的一定**增量分组**， 对每组使用直接插入排序算法排序； 随着增量(分组个数)逐渐减少， 每组包含的元素越来越多， 当增量减至 1 时， 整个文件恰被分成一组， 算法便终止。
+
+希尔排序演示：
+
+![4f3d6ca502bddeb2b466cd2c2054be55](./MDImg/4f3d6ca502bddeb2b466cd2c2054be55.gif)
+
+### 希尔排序案例
+
+1. ![image-20240907123704840](./MDImg/image-20240907123704840.png)
+2.  ![image-20240907123712650](./MDImg/image-20240907123712650.png)
+3.  ![image-20240907123718261](./MDImg/image-20240907123718261.png)
