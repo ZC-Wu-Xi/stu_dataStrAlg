@@ -667,7 +667,7 @@ public class TestApp {
 
 <img src="./MDImg/image-20240825123104006.png" alt="image-20240825123104006" style="zoom:80%;" />
 
-[代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用集合写
+[基数排序代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用集合写
 
 ```java
 private static final int[] array = {53, 3, 542, 728, 14, 214};
@@ -724,7 +724,7 @@ public static int[] sort(int[] array) {
 
 ![image-20240825140952304](./MDImg/image-20240825140952304.png)
 
-[代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用二维数组写
+[基数排序代码](.\src\main\java\com\xi\sort排序算法\BasicSort.java)：  用二维数组写
 
 ```java
 /**
@@ -823,7 +823,7 @@ public static int[] sort2(int[] array) {
 
 #### 冒泡排序案例一
 
-[代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
+[冒泡排序代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
 
 冒泡排序：
 
@@ -845,7 +845,7 @@ public static int[] sort(int[] array) {
 
 #### 冒泡排序案例二
 
-[代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
+[冒泡排序代码](.\src\main\java\com\xi\sort排序算法\BubblingSort.java)
 
 冒泡排序**优化**，如果上一轮都是有序的将不在进行后面轮次的比对：
 
@@ -897,7 +897,7 @@ public static int[] sort(int[] array) {
 
 ### 快速排序案例
 
-[代码](.\src\main\java\com\xi\sort排序算法\QuickSort.java)
+[快速排序代码](.\src\main\java\com\xi\sort排序算法\QuickSort.java)
 
 ```java
 /**
@@ -987,7 +987,7 @@ eg: 升序排序[1, 4, 6, 3, 4, 2, 7, 5, 2]
 
 ### 插入排序案例
 
-[代码](.\src\main\java\com\xi\sort排序算法\InsertSort.java)
+[插入排序代码](.\src\main\java\com\xi\sort排序算法\InsertSort.java)
 
 ```java
 public static void insertSort(int[] array) {
@@ -1020,6 +1020,8 @@ public static void insertSort(int[] array) {
 
 ![image-20240907110123861](./MDImg/image-20240907110123861.png)
 
+[选择排序代码](.\src\main\java\com\xi\sort排序算法\SelectSort.java)
+
 ```java
 public static void selectSort(int[] array) {
     for (int i = 0; i < array.length-1; i++) {
@@ -1046,9 +1048,15 @@ public static void selectSort(int[] array) {
 
 ### 希尔排序介绍
 
-希尔排序(Shell's Sort)是插入排序的一种又称“ 缩小增量排序” （ Diminishing Increment Sort） ， 是**排序算法的一种更高效的改进版本  **。
+希尔排序(Shell's Sort)是插入排序的一种又称“ 缩小增量排序” （ Diminishing Increment Sort） ， 是**排序算法的一种更高效的改进版本  **。但希尔排序是非稳定排序算法。
 
 希尔排序是把记录按下标的一定**增量分组**， 对每组使用直接插入排序算法排序； 随着增量(分组个数)逐渐减少， 每组包含的元素越来越多， 当增量减至 1 时， 整个文件恰被分成一组， 算法便终止。
+
+希尔排序是基于插入排序的以下两点性质而提出改进方法的：
+
+插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；
+但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位；
+希尔排序的基本思想是：先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列中的记录"基本有序"时，再对全体记录进行依次直接插入排序。   
 
 希尔排序演示：
 
@@ -1056,6 +1064,151 @@ public static void selectSort(int[] array) {
 
 ### 希尔排序案例
 
-1. ![image-20240907123704840](./MDImg/image-20240907123704840.png)
-2.  ![image-20240907123712650](./MDImg/image-20240907123712650.png)
-3.  ![image-20240907123718261](./MDImg/image-20240907123718261.png)
+1. 初始增量第一趟`gap=length/2=4`
+   ![image-20240907123704840](./MDImg/image-20240907123704840.png)
+2. 第一趟`gap=length/2/2=2`
+   ![image-20240907123712650](./MDImg/image-20240907123712650.png)
+3. 第三趟`gap=length/2/2/2=1`
+   ![image-20240907123718261](./MDImg/image-20240907123718261.png)
+
+[希尔排序代码](.\src\main\java\com\xi\sort排序算法\ShellSort.java)
+
+```java
+public class ShellSort {
+    //测试数据
+    private static final int[] array = {1, 4, 6, 3, 4, 2, 7, 5, 2};
+
+    public static void main(String[] args) {
+        shellSort(array);
+        System.out.println("排序后数组：" + Arrays.toString(array));
+    }
+
+    /**
+     * 负责分组
+     * @param array 待排序数组
+     */
+    public static void shellSort(int[] array) {
+        System.out.println("待排序数据 = " + Arrays.toString(array) + "  数组长度：" + array.length);
+        int gap = array.length;//  步长，也就是分组的数量
+
+        while (gap > 1) {// 当length=1时无法再进行分组
+            gap /= 2;
+            shell(array, gap);// 插入排序
+        }
+
+    }
+
+    /**
+     * 负责分完组后对每组元素进行插入排序
+     * @param array 待排序数组
+     * @param gap 组的个数
+     */
+    public static void shell(int[] array, int gap) {
+        if (array == null) {
+            return;
+        }
+
+        int temp = 0;
+        for (int i = gap; i < array.length; i++) {// 分好组
+            temp = array[i];
+            for (int j = i - gap; j >= 0; j -= gap) {// 组内元素进行排序
+                if (array[j] > temp) {
+                    array[j+gap] = array[j];
+                    array[j] = temp;
+                } else {
+                    break;
+                }
+            }
+        }
+        System.out.println("一组排序后(分组数" + gap + ") = " + Arrays.toString(array));
+    }
+}
+```
+
+**shell方法解析：**
+
+假设有待排序数组中九个元素
+
+第一次分组(4组)
+第1组0:4
+第2组1:5
+第3组2:6
+第4组3:7
+4:8
+
+1. i=4, true, temp=array[4]
+   j=4-4=0,true, array[0]:array[4]比对;
+   j=0-4=-4, false, break;
+2. i=5, true, temp=array[5]
+   j=5-4=1,true , array[1]:array[5]比对;
+   j=1-4=-3, false, break;
+3. i=6, true, temp=array[6]
+   j=6-4=2,true , array[2]:array[6]比对;
+   j=2-4=-2, false, break;
+4. i=7, true, temp=array[7]
+   j=7-4=3,true , array[3]:array[7]比对;
+   j=2-4=-2, false, break;
+5. i=8, true, temp=array[8]
+   j=8-4=4,true , array[4]:array[8]比对;
+   j=4-4=0, true, array[0]:array[8]比对;
+   j=0-4=-4, false, break;
+6. i=9,false
+
+第二次分组(2组)
+第1组1:3 1:5 1:7
+第2组0:2 2:4 0:4 4:6 2:6 0:6 6:8 4:8 2:8 0:8
+
+1. i=2, true, temp=array[2]
+   j=2-2=0,true , array[0]:array[2]比对;
+   j=0-2=-2,false, break;
+2. i=3, true, temp=array[3]
+   j=3-2=1,true , array[1]:array[3]比对;
+   j=1-2=-1, false, break;
+3. i=4, true, temp=array[4]
+   j=4-2=2,true , array[2]:array[4]比对;
+   j=2-2=0,true , array[0]:array[4]比对;
+   j=0-2=-2, false, break;
+4. i=5, true, temp=array[5]
+   j=5-2=3,true , array[3]:array[5]比对;
+   j=3-2=1, true, array[1]:array[5]比对；
+   j=1-2=-1, false, break;
+5. i=6, true, temp=array[6]
+   j=6-2=4,true , array[4]:array[6]比对;
+   j=4-2=2, true, array[2]:array[6]比对；
+   j=2-2=0, true, array[0]:array[6]比对；
+   j=0-2=-2, false, break;
+6. i=7, true, temp=array[7]
+   j=7-2=5,true , array[5]:array[7]比对;
+   j=5-2=3, true, array[3]:array[7]比对；
+   j=3-2=1, true, array[1]:array[7]比对；
+   j=1-2=-1, false, break;
+7. i=8, true, temp=array[8]
+   j=8-2=6,true , array[6]:array[8]比对;
+   j=6-2=4, true, array[4]:array[8]比对；
+   j=4-2=2, true, array[2]:array[8]比对；
+   j=2-2=0, true, array[0]:array[8]比对；
+   j=0-2=-2, false, break;
+8. i=9, false
+
+第三次分组(1组)
+0:1 1:2 0:2 2:3 1:3 0:3 3:4 2:4 1:4 0:4 4:5 3:5 2:5 1:5 0:5...
+
+1. i=1, true, temp=array[1]
+   j=1-1=0,true,array[0]:array[1]比对;
+   j=0-1=-1, false, break;
+2. i=2, true, temp=array[2]
+   j=2-1=1,true , array[1]:array[2]比对;
+   j=1-1=0,true,array[0]:array[2]比对;
+   j=0-1=-1, false, break;
+3. i=3, true, temp=array[3]
+   j=3-1=2,true , array[2]:array[3]比对;
+   j=2-1=1,true , array[1]:array[3]比对;
+   j=1-1=0,true,array[0]:array[3]比对;
+   j=0-1=-1, false, break;
+4. i=4, true, temp=array[4]
+   j=4-1=3,true , array[3]:array[4]比对;
+   j=3-1=2,true , array[2]:array[4]比对;
+   j=2-1=1,true , array[1]:array[4]比对;
+   j=1-1=0,true,array[0]:array[4]比对;
+   j=0-1=-1, false, break;
+5. ...
