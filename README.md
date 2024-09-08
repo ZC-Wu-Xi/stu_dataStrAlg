@@ -780,7 +780,7 @@ public static int[] sort2(int[] array) {
 
 <iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
 
-#### 例子
+#### 冒泡排序例子
 
 假设待排序序列`[5,1,4,2,8]`， 如果采用冒泡排序对其进行升序(由小到大)排序， 则整个排序过程如下所示:
 
@@ -876,7 +876,7 @@ public static int[] sort(int[] array) {
 
 ### 快速排序介绍
 
-#### 思想
+#### 快速排序思想及演示
 
 快速排序是对冒泡排序的一种改进。 通过一趟排序将要排序的数据分割成独立的两部分， 其中一部分的所有数据都比另一部分所有的数据都要小， 然后再按此方法对这两部分数据分别进行快速排序， 整个排序过程可以递归进行， 以此达到整个数据变成有序序列 。
 
@@ -884,7 +884,7 @@ public static int[] sort(int[] array) {
 
 <iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
 
-#### 例子
+#### 快速排序例子
 
 对以下数列按从小到大进行排序： 
 
@@ -977,13 +977,17 @@ eg: 升序排序[1, 4, 6, 3, 4, 2, 7, 5, 2]
 
 ### 插入排序介绍
 
-插入排序属于内部排序， 是对于排序的元素以插入的方式寻找该元素的适当位置， 以达到排序的目的。  
+#### 插入排序思想及演示
 
-![image-20240904173403718](./MDImg/image-20240904173403718.png)
+插入排序属于内部排序， 是对于排序的元素以插入的方式寻找该元素的适当位置， 以达到排序的目的。  
 
 :arrow_down::arrow_down:点击页面上方`INS`演示**插入排序**:arrow_down::arrow_down:
 
 <iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+#### 插入排序例子
+
+![image-20240904173403718](./MDImg/image-20240904173403718.png)
 
 ### 插入排序案例
 
@@ -1010,15 +1014,19 @@ public static void insertSort(int[] array) {
 
 ### 选择排序介绍
 
+#### 选择排序思想及演示
+
 第一次从待排序的数据元素中选出最小（或最大） 的一个元素， 存放在序列的起始位置，然后再从剩余的未排序元素中寻找到最小（大） 元素， 然后放到已排序的序列的末尾。 以此类推， 直到全部待排序的数据元素的个数为零。 选择排序是不稳定的排序方法。
 
 :arrow_down::arrow_down:点击页面上方`SEI`演示**选择排序**:arrow_down::arrow_down:
 
 <iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
 
-### 选择排序案例
+#### 选择排序例子
 
 ![image-20240907110123861](./MDImg/image-20240907110123861.png)
+
+### 选择排序案例
 
 [选择排序代码](.\src\main\java\com\xi\sort排序算法\SelectSort.java)
 
@@ -1048,6 +1056,8 @@ public static void selectSort(int[] array) {
 
 ### 希尔排序介绍
 
+#### 希尔排序思想及演示
+
 希尔排序(Shell's Sort)是插入排序的一种又称“ 缩小增量排序” （ Diminishing Increment Sort） ， 是**排序算法的一种更高效的改进版本  **。但希尔排序是非稳定排序算法。
 
 希尔排序是把记录按下标的一定**增量分组**， 对每组使用直接插入排序算法排序； 随着增量(分组个数)逐渐减少， 每组包含的元素越来越多， 当增量减至 1 时， 整个文件恰被分成一组， 算法便终止。
@@ -1062,7 +1072,7 @@ public static void selectSort(int[] array) {
 
 ![4f3d6ca502bddeb2b466cd2c2054be55](./MDImg/4f3d6ca502bddeb2b466cd2c2054be55.gif)
 
-### 希尔排序案例
+#### 希尔排序例子
 
 1. 初始增量第一趟`gap=length/2=4`
    ![image-20240907123704840](./MDImg/image-20240907123704840.png)
@@ -1070,6 +1080,8 @@ public static void selectSort(int[] array) {
    ![image-20240907123712650](./MDImg/image-20240907123712650.png)
 3. 第三趟`gap=length/2/2/2=1`
    ![image-20240907123718261](./MDImg/image-20240907123718261.png)
+
+### 希尔排序案例
 
 [希尔排序代码](.\src\main\java\com\xi\sort排序算法\ShellSort.java)
 
@@ -1212,3 +1224,150 @@ public class ShellSort {
    j=1-1=0,true,array[0]:array[4]比对;
    j=0-1=-1, false, break;
 5. ...
+
+## 八. 归并排序
+
+### 归并排序介绍
+
+#### 归并排序思想及演示
+
+归并排序（Merge Sort） 是建立在归并操作上的一种有效， 稳定的排序算法， 该算法是采用分治法（Divide and Conquer） 的一个非常典型的应用。 将已有序的子序列合并， 得到完全有序的序列； 即先使每个子序列有序， 再使子序列段间有序。 若将两个有序表合并成一个有序表， 称为二路归并  。
+
+:arrow_down::arrow_down:点击页面上方`MER`演示**归并排序**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/sorting" width="100%" height="800px" frameborder="0"></iframe>
+
+#### 归并排序例子
+
+![image-20240908110517112](./MDImg/image-20240908110517112.png)
+
+我们需要将两个已经有序的子序列合并成一个有序序列， 比如上图最后一次合并， 将[2,4,5,6]和[1,3,7,8]已经有序的子序列合并最终序列[1,2,3,4,5,6,7,8] 
+合并：
+
+![image-20240908110635979](./MDImg/image-20240908110635979.png)
+
+### 归并排序案例
+
+```java
+package com.xi.sort排序算法;
+
+import java.util.Arrays;
+
+/**
+ * @author ZC_Wu 汐
+ * @date 2024/9/8 11:20:34
+ * @description
+ */
+public class MergeSort {
+    //测试数据
+    private static final int[] array = {5, 2, 4, 5, 1, 7, 8, 3};
+
+    public static void main(String[] args) {
+        System.out.println("待排序数据：" + Arrays.toString(array) + " 比对数据为 左边：左指针到中指针 和 右边：中指针+1到右指针");
+        int[] temp = new int[array.length];
+        mSort(array, 0, array.length - 1, temp );
+        System.out.println("array = " + Arrays.toString(array));;
+
+    }
+
+    /**
+     * 向下分解
+     * @param array 待排序数组
+     * @param left 左指针
+     * @param right 右指针
+     * @param temp 临时数组
+     */
+    public static void mSort(int[] array, int left, int right, int[] temp) {
+        System.out.println("mSort()  left" + left + "<" + "right" + right + "?" + (left<right));
+        if (left < right) {
+            int mid = (left + right) / 2;
+            // 向左进行分解
+            mSort(array, left, mid, temp);
+            // 向右进行分解
+            mSort(array, mid + 1, right, temp);
+            // 归并
+            sort(array, left, right, mid, temp);
+        }
+    }
+
+    /**
+     * 归并
+     * @param array 待排序数组
+     * @param left 左指针
+     * @param right 右指针()
+     * @param mid 中间指针(mid+1为右序列开始比对的元素)
+     * @param temp 临时数组
+     */
+    public static void sort(int[] array, int left, int right, int mid, int[] temp) {
+        int i = left;// 指向前面的序列开始位置
+        int j = mid + 1;// 指向后面的序列开始位置
+        int t = 0;// 记录临时数组的下标
+
+        // 进行比对
+        while (i <= mid && j <= right) {// 左边序列和右边序列都不超过各自索引时循环 比对数据的索引范围为left-right
+            if (array[i] <= array[j]) {// 左边小
+                temp[t] = array[i];
+                t++;// 临时数组下标右移
+                i++;// 左指针右移
+            } else {// 右边小
+                temp[t] = array[j];
+                t++;// 临时数组下标右移
+                j++;// 右指针右移
+            }
+        }// 循环结束后有可能左边或右边只有一边指针走到最后，另一边元素需要平移到临时数组
+
+        // 将左边有序序列剩余的元素平移到临时数组后面
+        while (i <= mid) {
+            temp[t] = array[i];
+            t++;// 临时数组下标右移
+            i++;// 左指针右移
+        }
+        // 将右边有序序列剩余的元素平移到临时数组后面
+        while (j <= right) {
+            temp[t] = array[j];
+            t++;// 临时数组下标右移
+            j++;// 右指针右移
+        }
+
+        // 把临时数组(已排序完)中的元素拷贝到array中去
+        t = 0;
+        int index = left;
+        while (index <= right) {
+            array[index] = temp[t];
+            index++;
+            t++;
+        }
+        System.out.println("sort() 归并排序左指针：" + left + " 中指针：" + mid + "  右指针：" + right + " 比对数据的索引范围：" + left + "-" + right + " 排序后数组:" + Arrays.toString(array));
+    }
+}
+```
+
+运行后控制台输出：
+
+```powershell
+待排序数据：[5, 2, 4, 5, 1, 7, 8, 3] 比对数据为 左边：左指针到中指针 和 右边：中指针+1到右指针
+mSort()  left0<right7?true
+mSort()  left0<right3?true
+mSort()  left0<right1?true
+mSort()  left0<right0?false
+mSort()  left1<right1?false
+sort() 归并排序左指针：0 中指针：0  右指针：1 比对数据的索引范围：0-1 排序后数组:[2, 5, 4, 5, 1, 7, 8, 3]
+mSort()  left2<right3?true
+mSort()  left2<right2?false
+mSort()  left3<right3?false
+sort() 归并排序左指针：2 中指针：2  右指针：3 比对数据的索引范围：2-3 排序后数组:[2, 5, 4, 5, 1, 7, 8, 3]
+sort() 归并排序左指针：0 中指针：1  右指针：3 比对数据的索引范围：0-3 排序后数组:[2, 4, 5, 5, 1, 7, 8, 3]
+mSort()  left4<right7?true
+mSort()  left4<right5?true
+mSort()  left4<right4?false
+mSort()  left5<right5?false
+sort() 归并排序左指针：4 中指针：4  右指针：5 比对数据的索引范围：4-5 排序后数组:[2, 4, 5, 5, 1, 7, 8, 3]
+mSort()  left6<right7?true
+mSort()  left6<right6?false
+mSort()  left7<right7?false
+sort() 归并排序左指针：6 中指针：6  右指针：7 比对数据的索引范围：6-7 排序后数组:[2, 4, 5, 5, 1, 7, 3, 8]
+sort() 归并排序左指针：4 中指针：5  右指针：7 比对数据的索引范围：4-7 排序后数组:[2, 4, 5, 5, 1, 3, 7, 8]
+sort() 归并排序左指针：0 中指针：3  右指针：7 比对数据的索引范围：0-7 排序后数组:[1, 2, 3, 4, 5, 5, 7, 8]
+array = [1, 2, 3, 4, 5, 5, 7, 8]
+```
+
