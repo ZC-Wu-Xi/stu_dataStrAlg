@@ -1075,7 +1075,8 @@ public static void selectSort(int[] array) {
 #### 希尔排序例子
 
 1. 初始增量第一趟`gap=length/2=4`
-   ![image-20240907123704840](./MDImg/image-20240907123704840.png)
+   
+    ![image-20240907123704840](./MDImg/image-20240907123704840.png)
 2. 第一趟`gap=length/2/2=2`
    ![image-20240907123712650](./MDImg/image-20240907123712650.png)
 3. 第三趟`gap=length/2/2/2=1`
@@ -1369,5 +1370,463 @@ sort() 归并排序左指针：6 中指针：6  右指针：7 比对数据的索
 sort() 归并排序左指针：4 中指针：5  右指针：7 比对数据的索引范围：4-7 排序后数组:[2, 4, 5, 5, 1, 3, 7, 8]
 sort() 归并排序左指针：0 中指针：3  右指针：7 比对数据的索引范围：0-7 排序后数组:[1, 2, 3, 4, 5, 5, 7, 8]
 array = [1, 2, 3, 4, 5, 5, 7, 8]
+```
+
+# Ⅳ. 线性表
+
+## 〇. 线性表介绍
+
+线性表是最基本、 最简单、 也是最常用的一种数据結构。 一个线性表是 n 个具有相同特性的数据元素的有限序列。
+
+前驱元素：
+
+- 若 A 元素在 B 元素的前面， 则称 A 为 B 的前驱元素
+
+后继元素：
+
+- 若 B 元素在 A 元素的后面， 则称 B 为 A 的后继元素
+
+线性表的特征：
+
+- 数据元素之间具有一种“一对一” 的逻辑关系。
+
+总结：
+
+1. 第一个数据元素没有前驱， 这个数据元素被称为头结点; 
+2. 最后一个数据元素没有后继， 这个数据元素被称为尾结点; 
+3. 除了第一个和最后一个数据元素外， 其他数据元素有且仅有一个前驱和一个后继。
+
+线性表的分类:  
+
+- 线性表中数据存储的方式可以是顺序存储， 也可以是链式存储， 按照数据的存储方式不同，可以把线性表分为顺序表和链表。  
+
+## 一. 顺序表
+
+顺序表是在计算机内存中**以数组的形式保存**的线性表， 线性表的顺序存储是指用一组地址连续的存储单元， 依次存储线性表中的各个元素、 使得线性表中再逻辑结构上响铃的数据元素存储。
+
+在相邻的物理存储单元中， 即通过数据元素物理存储的相邻关系来反映数据元素之间逻辑上的相邻关系。
+
+![image-20240909174430452](./MDImg/image-20240909174430452.png)
+
+### 顺序表API设计
+
+类名：`SequenceList<T>`
+
+构造方法：`SequenceList(int cappacity)`: 创建容量为cappacity的SequenceList对象
+
+成员方法：
+
+1.  `public void clear()`: 空置线性表
+2. `public boolean isEntry()`: 判断线性表是否为空，是返回true,否返回false
+3. `public int length()`: 获取线性表中的元素个数
+4. `public T get(int i)`:  读取并返回线性表中的第i个元素的值
+5. `public void insert(int i,T t)`: 在线性表的第i个元素之前插入一个值为t的数据元素。
+6. `public void insert(T t)`: 向线性表中添加一个元素t
+7. `public T remove(int i)`: 删除并返回线性表中第i个数据元素。
+8. `public int indexof(T t)`: 返回线性表中首次出现的指定的数据元素的位序号，若不存在，则返回-1。
+
+成员变量
+
+1. `private T[] eles`: 存储元素的数组
+2. `private int N:` 当前线性表的长度
+
+```java
+public class SequenceList<T> {
+    private T[] eles;// 存储元素的数组
+    private int N;// 线性表的长度
+
+    /**
+     * 构造方法
+     * @param capacity 容量大小
+     */
+    public SequenceList(int capacity) {
+        this.eles = (T[])new Object[capacity];
+        this.N = 0;
+    }
+
+    /**
+     * 清空线性表
+     */
+    public void clear() {
+        this.N = 0;
+    }
+
+    /**
+     * 判断是否为空
+     * @return 返回true为空，返回false为非空
+     */
+    public boolean isEntry() {
+        return this.N == 0;
+    }
+
+    /**
+     * 获取线性表中的长度
+     * @return 线性表的长度
+     */
+    public int length() {
+        return this.N;
+    }
+
+    /**
+     * 获取指定位置的元素
+     * @param i 索引
+     * @return 该索引处的元素
+     */
+    public T get(int i) {
+        return eles[i];
+    }
+
+    /**
+     * 插入元素(往后面追加)
+     * @param t 插入的元素
+     */
+    public void insert(T t) {
+        eles[N++] = t;// 插入一个元素后长度+1
+    }
+
+    /**
+     * 往指定位置插入元素
+     * @param i 插入的位置
+     * @param t 插入的元素
+     */
+    public void insert(int i, T t) {
+        for (int index = N; index > i; index--) {// 后面的值依次后移
+            eles[index] = eles[index-1];
+        }
+        eles[i] = t;// 为该索引赋值
+        N++;// 插入一个元素后长度+1
+    }
+
+    /**
+     * 删除并返回指定索引处的元素
+     * @param i 删除元素的索引
+     * @return 删除的元素
+     */
+    public T remove(int i) {
+        T current = eles[i];
+        for (int index = i; index < N-1; index++) {// 后面的值依次前移
+            eles[index] = eles[index+1];
+        }
+        eles[N-1] = null;
+        N--;// 删除一个元素后长度-1
+        return current;
+    }
+
+    /**
+     * 返回线性表中首次出现的该元素的索引，没有该元素返回-1
+     * @param t 查询的元素
+     * @return 元素的位置
+     */
+    public int indexOf(T t) {
+        for (int i = 0; i < N; i++) {
+            if (eles[i].equals(t)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+### 顺序表遍历
+
+一般作为容器存储数据， 都需要向外部提供遍历的方式， 因此我们需要给顺序表提供遍历方式。
+
+在 java 中,遍历集合的方式一般都是用的是 foreach 循环,如果想让我们的 SequenceList 也能支持 foreach 循环,则需要做如下操作
+
+1. 让 SequenceList 实现 terable 接口， 重写 iterator 方法
+2. 在 SequenceList 内部提供一个内部类 Sterator,实现 Iterator 接口， 重写 hasNext 方法和 next方法;
+
+上面代码基础上新增：
+
+```java
+public class SequenceList<T> implements Iterable {
+    
+    @Override
+    public Iterator iterator() {
+        return new MyIterable();
+    }
+    
+    /**
+     * 自定如何返回当前顺序表中的元素 向外部提供遍历的方式
+     */
+    private class MyIterable implements Iterator {
+
+        // 指定指针
+        private int cusor;
+        public MyIterable() {
+            cusor = 0;
+        }
+
+        /**
+         * 判断是否还具备下一个元素
+         * @return
+         */
+        @Override
+        public boolean hasNext() {
+            return cusor < N;
+        }
+
+        /**
+         * 获取下一个元素
+         * @return
+         */
+        @Override
+        public Object next() {
+            return eles[cusor++];
+        }
+    }
+    // ...
+}
+```
+
+### 顺序表的容量可变
+
+在之前的实现中，当我们使用 SequenceList 时，先 new SequenceList(5)创建一个对象，创建对象时就需要指定容器的大小，初始化指定大小的数组来存储元素，当我们插入元素时，如果已经插入了 5 个元素，还要继续插入数据，则会报错，就不能插入了。这种设计不符合容器的设计理念，因此我们在设计顺序表时，应该考虑它的容量的伸缩性。
+
+考虑容器的容量伸缩性，其实就是改变存储数据元素的数组的大小，那我们需要考虑什么时候需要改变数组的大小？
+
+1. 添加元素时：
+   添加元素时，应该检查当前数组的大小是否能容纳新的元素，**如果不能容纳**，则需要创建新的容量更大的数组，我们这里**创建一个是原数组两倍容量的新数组**存储元素。
+   ![image-20240909195926118](./MDImg/image-20240909195926118.png)
+
+2. 移除元素时：
+   移除元素时，应该检查当前数组的大小是否太大，比如正在用 100 个容量的数组存储 10 个元素，这样就会造成内存空间的浪费，应该创建一个容量更小的数组存储元素。如果我们发现数据元素的数量**不足数组容量的 $\frac{1}{4}$，则创建一个是原数组容量的 $\frac{1}{2}$ 的新数组**存储元素。
+
+   ![image-20240909195946282](./MDImg/image-20240909201318811.png)
+
+上面代码基础上新增：
+
+```java
+   /**
+     * 插入元素(往后面追加)
+     * @param t 插入的元素
+     */
+public void insert(T t) {
+    if (N == eles.length) {
+        resize(2*eles.length);// 扩容
+    }
+    eles[N++] = t;// 插入一个元素后长度+1
+
+}
+
+   /**
+     * 往指定位置插入元素
+     * @param i 插入的位置
+     * @param t 插入的元素
+     */
+public void insert(int i, T t) {
+    if (N == eles.length) {
+        resize(2*eles.length);// 扩容
+    }
+    for (int index = N; index > i; index--) {// 后面的值依次后移
+        eles[index] = eles[index-1];
+    }
+    eles[i] = t;// 为该索引赋值
+    N++;// 插入一个元素后长度+1
+}
+
+   /**
+     * 删除并返回指定索引处的元素
+     * @param i 删除元素的索引
+     * @return 删除的元素
+     */
+public T remove(int i) {
+    T current = eles[i];
+    for (int index = i; index < N-1; index++) {// 后面的值依次前移
+        eles[index] = eles[index+1];
+    }
+    eles[N-1] = null;
+    N--;// 删除一个元素后长度-1
+    if (N < eles.length/4) {
+        resize(eles.length/2);// 不足原来的1/4，缩小容量
+    }
+    return current;
+}
+```
+
+### 顺序表完整代码
+
+```java
+package com.xi.sort排序算法;
+
+import java.util.Iterator;
+
+/**
+ * @author ZC_Wu 汐
+ * @date 2024/9/9 17:59:04
+ * @description 顺序表数组
+ */
+public class SequenceList<T> implements Iterable {
+    private T[] eles;// 存储元素的数组
+    private int N;// 线性表的长度
+
+    public static void main(String[] args) {
+        SequenceList<String> stringSequenceList = new SequenceList<>(5);
+
+        stringSequenceList.insert("孙悟空");
+        stringSequenceList.insert("猪八戒");
+        stringSequenceList.insert("白骨精");
+        stringSequenceList.insert(1, "唐僧");
+
+        stringSequenceList.remove(2);
+        String s = stringSequenceList.get(1);
+
+        Iterator iterator = stringSequenceList.iterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + ", ");
+        }
+    }
+
+    /**
+     * 构造方法
+     * @param capacity 容量大小
+     */
+    public SequenceList(int capacity) {
+        this.eles = (T[])new Object[capacity];
+        this.N = 0;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new MyIterable();
+    }
+
+    /**
+     * 自定如何返回当前顺序表中的元素 向外部提供遍历的方式
+     */
+    private class MyIterable implements Iterator {
+
+        // 指定指针
+        private int cusor;
+        public MyIterable() {
+            cusor = 0;
+        }
+
+        /**
+         * 判断是否还具备下一个元素
+         * @return
+         */
+        @Override
+        public boolean hasNext() {
+            return cusor < N;
+        }
+
+        /**
+         * 获取下一个元素
+         * @return
+         */
+        @Override
+        public Object next() {
+            return eles[cusor++];
+        }
+    }
+
+    /**
+     * 清空线性表
+     */
+    public void clear() {
+        this.N = 0;
+    }
+
+    /**
+     * 判断是否为空
+     * @return 返回true为空，返回false为非空
+     */
+    public boolean isEntry() {
+        return this.N == 0;
+    }
+
+    /**
+     * 获取线性表中的长度
+     * @return 线性表的长度
+     */
+    public int length() {
+        return this.N;
+    }
+
+    /**
+     * 获取指定位置的元素
+     * @param i 索引
+     * @return 该索引处的元素
+     */
+    public T get(int i) {
+        return eles[i];
+    }
+
+    /**
+     * 插入元素(往后面追加)
+     * @param t 插入的元素
+     */
+    public void insert(T t) {
+        if (N == eles.length) {
+            resize(2*eles.length);// 扩容
+        }
+        eles[N++] = t;// 插入一个元素后长度+1
+    }
+
+    /**
+     * 往指定位置插入元素
+     * @param i 插入的位置
+     * @param t 插入的元素
+     */
+    public void insert(int i, T t) {
+        if (N == eles.length) {
+            resize(2*eles.length);// 扩容
+        }
+        for (int index = N; index > i; index--) {// 后面的值依次后移
+            eles[index] = eles[index-1];
+        }
+        eles[i] = t;// 为该索引赋值
+        N++;// 插入一个元素后长度+1
+    }
+
+    /**
+     * 删除并返回指定索引处的元素
+     * @param i 删除元素的索引
+     * @return 删除的元素
+     */
+    public T remove(int i) {
+        T current = eles[i];
+        for (int index = i; index < N-1; index++) {// 后面的值依次前移
+            eles[index] = eles[index+1];
+        }
+        eles[N-1] = null;
+        N--;// 删除一个元素后长度-1
+        if (N < eles.length/4) {
+            resize(eles.length/2);// 不足原来的1/4，缩小容量
+        }
+        return current;
+    }
+
+    /**
+     * 返回线性表中首次出现的该元素的索引，没有该元素返回-1
+     * @param t 查询的元素
+     * @return 元素的位置
+     */
+    public int indexOf(T t) {
+        for (int i = 0; i < N; i++) {
+            if (eles[i].equals(t)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 修改数组大小
+     * @param newSize 新的数组大小
+     */
+    private void resize(int newSize) {
+        T[] temp = eles;
+
+        // 创建新的数组
+        eles = (T[])new Object[newSize];
+
+        for (int i = 0; i < N; i++) {
+            eles[i] = temp[i];
+        }
+    }
+}
 ```
 
