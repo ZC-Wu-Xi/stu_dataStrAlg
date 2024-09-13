@@ -1376,6 +1376,8 @@ array = [1, 2, 3, 4, 5, 5, 7, 8]
 
 ## 〇. 线性表介绍
 
+[链表（单向，双向），堆栈，队列，双端队列 - VisuAlgo](https://visualgo.net/zh/list)
+
 线性表是最基本、 最简单、 也是最常用的一种数据結构。 一个线性表是 n 个具有相同特性的数据元素的有限序列。
 
 前驱元素：
@@ -1402,13 +1404,17 @@ array = [1, 2, 3, 4, 5, 5, 7, 8]
 
 ## 一. 顺序表
 
+### 顺序表介绍
+
 顺序表是在计算机内存中**以数组的形式保存**的线性表， 线性表的顺序存储是指用一组地址连续的存储单元， 依次存储线性表中的各个元素、 使得线性表中再逻辑结构上响铃的数据元素存储。
 
 在相邻的物理存储单元中， 即通过数据元素物理存储的相邻关系来反映数据元素之间逻辑上的相邻关系。
 
 ![image-20240909174430452](./MDImg/image-20240909174430452.png)
 
-### 顺序表API设计
+### 顺序表案例
+
+#### 1. 顺序表API设计
 
 类名：`SequenceList<T>`
 
@@ -1528,7 +1534,7 @@ public class SequenceList<T> {
 }
 ```
 
-### 顺序表遍历
+#### 2. 顺序表遍历
 
 一般作为容器存储数据， 都需要向外部提供遍历的方式， 因此我们需要给顺序表提供遍历方式。
 
@@ -1580,7 +1586,7 @@ public class SequenceList<T> implements Iterable {
 }
 ```
 
-### 顺序表的容量可变
+#### 3. 顺序表的容量可变
 
 在之前的实现中，当我们使用 SequenceList 时，先 new SequenceList(5)创建一个对象，创建对象时就需要指定容器的大小，初始化指定大小的数组来存储元素，当我们插入元素时，如果已经插入了 5 个元素，还要继续插入数据，则会报错，就不能插入了。这种设计不符合容器的设计理念，因此我们在设计顺序表时，应该考虑它的容量的伸缩性。
 
@@ -1645,7 +1651,7 @@ public T remove(int i) {
 }
 ```
 
-### 顺序表完整代码
+#### 顺序表案例完整代码
 
 ```java
 package com.xi.sort排序算法;
@@ -1825,6 +1831,409 @@ public class SequenceList<T> implements Iterable {
 
         for (int i = 0; i < N; i++) {
             eles[i] = temp[i];
+        }
+    }
+}
+```
+
+## 二. 链表
+
+### 链表(Linked List)
+
+#### 链表介绍
+
+链表(Linked List)是一种物理存储单元上非连续， 非顺序的存储结构， 数据元素的逻辑顺序是通过链表中的指针链接实现的
+
+:arrow_down::arrow_down:点击页面上方`LL`演示**链表**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/list" width="100%" height="800px" frameborder="0"></iframe>
+
+- 链表：
+   ![image-20240912110802384](./MDImg/image-20240912110802384.png)
+
+- 插入数据：
+
+   <img src="./MDImg/image-20240912111149452.png" alt="image-20240912111149452" style="zoom:50%;" />
+
+- 删除数据
+  <img src="./MDImg/image-20240912111316598.png" alt="image-20240912111316598" style="zoom:50%;" />
+
+![image-20240912112112119](./MDImg/image-20240912112112119.png)
+
+特点：
+
+1. 链表是以结点形式存储的， 是链式存储
+2. 每个结点包含 data 区域和 next 区域
+3. 如上图各个结点并不是连续存储的
+4. 链表分带头结点链表和没有带头结点链表， 根据实际的需求来确定
+
+带头结点链表逻辑结构：
+![image-20240912112409595](./MDImg/image-20240912112409595.png)
+
+#### 链表实现
+
+```java
+public class Node<T> {
+    public T item;// 存储数据
+    public Node next;// 下一节点
+    public static void main(String[] args) {
+        Node n1 = new Node(1, null);
+        Node n2 = new Node(2, null);
+        Node n3 = new Node(3, null);
+        Node n4 = new Node(4, null);
+        Node n5 = new Node(5, null);
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+    }
+    public Node(T item, Node next) {
+        this.item = item;
+        this.next = next;
+    }
+}
+```
+
+### 单向链表
+
+#### 单向链表介绍
+
+单向链表是链表的一种，它由多个结点组成，每个结点都由一个数据域和一个指针域组成，数据域用来存储数据，指针域用来指向其后继结点。链表的头结点的数据域不存储数据，指针域指向第一个真正存储数据的结点。  
+
+![image-20240912202804941](./MDImg/image-20240912202804941.png)
+
+#### 单向链表案例
+
+##### 1. 单向链表案例一
+
+```java
+public class LinkList<T> implements Iterable<T>{
+    private Node head;// 链表头节点
+    private int N;// 链表的长度
+    public static void main(String[] args) {
+        LinkList<Object> ll = new LinkList<>();
+        ll.insert("a");
+        ll.insert("b");
+        ll.insert("c");
+        ll.insert("d");
+        ll.insert("e");
+
+        System.out.println(ll.get(2));
+        System.out.println(ll.remove(2));
+        ll.insert("f", 2);
+        Iterator<Object> iterator = ll.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next() + " ");
+        }
+        System.out.println(ll);
+    }
+    public LinkList() {
+        head = new Node(null, null);
+        N = 0;
+    }
+    /**
+     * 迭代的方法
+     * @return
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new LIterator();
+    }
+    private class LIterator implements Iterator<T> {
+        private Node n;
+        public LIterator() {
+            this.n = head;
+        }
+        /**
+         * 判断是否还具备下一个元素 向外部提供遍历的方式
+         * @return
+         */
+        @Override
+        public boolean hasNext() {
+            return n.next!=null;
+        }
+        /**
+         * 获取下一个元素 向外部提供遍历的方式
+         * @return
+         */
+        @Override
+        public T next() {
+            n = n.next;
+            return n.item;
+        }
+    }
+    /**
+     * 内部类 链表节点
+     */
+    private class Node {
+        public T item;// 存储数据
+        public Node next;// 下一节点
+        public Node(T item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "item=" + item +
+                    ", next=" + next +
+                    '}';
+        }
+    }
+    /**
+     * 清空线性表元素
+     */
+    public void clear() {
+        head.next = null;
+        N = 0;
+    }
+    /**
+     * 是否为空
+     * @return
+     */
+    public boolean isEntry() {
+        return N == 0;
+    }
+    /**
+     * 线性表长度
+     * @return
+     */
+    public int length() {
+        return N;
+    }
+    /**
+     * 返回线性表中的指定位置元素
+     * @param i
+     * @return
+     */
+    public T get(int i) {
+        if (i < 0 | i > N-1) {
+            throw new RuntimeException("索引不合法");
+        }
+        Node n = head.next;
+
+        for (int index = 0; index < i; index++) {
+            n = n.next;
+        }
+        return n.item;
+    }
+    /**
+     * 往线性表后插入一个元素
+     * @param t
+     */
+    public void insert(T t) {
+        Node n = head;
+        // 找最后一个元素
+        while (n.next != null) {
+            n = n.next;
+        }
+        // 创建一个节点
+        Node node = new Node(t, null);
+        // 插入
+        n.next = node;
+        N++;
+    }
+    /**
+     * 往线性表指定位置插入一个元素
+     * @param t
+     * @param i
+     */
+    public void insert(T t, int i) {
+        if (i < 0 | i > N) {
+            throw new RuntimeException("索引不合法");
+        }
+
+        Node n = head;
+
+        for (int index = 0; index < i; index++) {
+            n = n.next;
+        }
+
+        // 原插入位置元素
+        Node current = n.next;
+        // 原位置元素移到插入元素的后面
+        Node node = new Node(t, current);
+        // 插入新节点
+        n.next = node;
+        N++;
+    }
+    /**
+     * 删除指定位置的元素并返回
+     * @param i
+     * @return
+     */
+    public T remove(int i) {
+        if (i < 0 | i > N) {
+            throw new RuntimeException("索引不合法");
+        }
+
+        Node n = head;
+
+        for (int index = 0; index < i; index++) {
+            n = n.next;
+        }
+        Node current = n.next;// 删除的节点
+        n.next = current.next;
+        N--;
+        return current.item;
+    }
+    /**
+     * 查询第一次出现指定元素的位置，没有则返回-1
+     * @param t
+     * @return
+     */
+    public int indexOf(T t) {
+        Node node = head;
+        for (int index = 0; index < N - 1; index++) {
+            node = node.next;
+            if (node.item.equals(t)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+    @Override
+    public String toString() {
+        return "LinkList{" +
+                "head=" + head +
+                ", N=" + N +
+                '}';
+    }
+}
+```
+
+控制台打印：
+
+```shell
+c
+c
+a 
+b 
+f 
+d 
+e 
+LinkList{head=Node{item=null, next=Node{item=a, next=Node{item=b, next=Node{item=f, next=Node{item=d, next=Node{item=e, next=null}}}}}}, N=5}
+```
+
+##### 2. 单向链表案例二
+
+根据带有头部的单链表， 实现商品增删改查， 并且也可以针对商品已编号进行排序， 完成排行榜
+
+```java
+public class GoodsNode {
+    public int gId;
+    public String gName;
+    public double gPrice;
+    public GoodsNode next;
+    public GoodsNode(int gId, String gName, double gPrice) {
+        this.gId = gId;
+        this.gName = gName;
+        this.gPrice = gPrice;
+    }
+}
+```
+
+```java
+public class GLinkedList {
+    private GoodsNode node = new GoodsNode(0, "", 0.0);// 头节点
+
+    /**
+     * 添加节点
+     * @param goodsNode 添加的节点
+     */
+    public void add(GoodsNode goodsNode) {
+        // 证实是添加节点还是添加的第一个节点
+        GoodsNode temp = node;
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+            temp = temp.next;
+        }
+        temp.next = goodsNode;
+    }
+
+    /**
+     * 插入商品 按商品gid进行排序 1,2,4,5,6,7...
+     * @param goodsNode
+     */
+    public void addByOrder(GoodsNode goodsNode) {
+        GoodsNode temp = node;
+        boolean flag = false;// 新插入节点的商品编号是否已经存在
+        while (true) {
+            // 最后一个
+            if (temp.next == null) {
+                break;
+            }
+            // 下一个已经存在的编号大于新节点编号 插入在该节点的后面
+            if (temp.next.gId > goodsNode.gId) {
+                break;
+            } else if (temp.next.gId == goodsNode.gId) {
+                // 已经存在的编号不能重复添加
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            System.out.println("该商品已存在，不能重复添加");
+        } else {
+            // 插入
+            goodsNode.next = temp.next;
+            temp.next = goodsNode;
+        }
+    }
+
+    /**
+     * 根据编号gid进行修改
+     * @param goodsNode
+     */
+    public void updateNode(GoodsNode goodsNode) {
+        if (node.next == null) {
+            System.out.println("空链表");
+            return;
+        }
+        GoodsNode temp = node.next;
+        boolean flag = false;// 是否找到该gid的商品
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.gId == goodsNode.gId) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.gName = goodsNode.gName;
+            temp.gPrice = goodsNode.gPrice;;
+        } else {
+            System.out.println("未找到该商品的节点");
+        }
+    }
+
+    /**
+     * 根据编号gid进行删除
+     * @param gId
+     */
+    public void delNode(int gId) {
+        GoodsNode temp = node;
+        boolean flag = false;// 是否找到该gid的商品
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.next.gId == gId) {// 找到的temp是该gId商品的前一个商品节点
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.next = temp.next.next;
+        } else {
+            System.out.println("未找到该商品的节点");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.xi.sort排序算法;
+package com.xi.linear线性表;
 
 import java.util.Iterator;
 
