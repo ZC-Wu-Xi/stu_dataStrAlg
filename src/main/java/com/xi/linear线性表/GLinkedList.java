@@ -3,7 +3,7 @@ package com.xi.linear线性表;
 /**
  * @author ZC_Wu 汐
  * @date 2024/9/13 19:26:08
- * @description 单向链表案例二
+ * @description 链表-单向链表案例二
  * 根据带有头部的单链表， 实现商品增删改查， 并且也可以针对商品已编号进行排序， 完成排行榜
  */
 public class GLinkedList {

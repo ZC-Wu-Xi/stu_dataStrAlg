@@ -1872,6 +1872,8 @@ public class SequenceList<T> implements Iterable {
 
 #### 链表实现
 
+[代码](src/main/java/com/xi/linear线性表/Node.java)
+
 ```java
 public class Node<T> {
     public T item;// 存储数据
@@ -1905,6 +1907,8 @@ public class Node<T> {
 #### 单向链表案例
 
 ##### 1. 单向链表案例一
+
+[代码](./src/main/java/com/xi/linear线性表/LinkList.java)
 
 ```java
 public class LinkList<T> implements Iterable<T>{
@@ -2119,6 +2123,8 @@ LinkList{head=Node{item=null, next=Node{item=a, next=Node{item=b, next=Node{item
 
 根据带有头部的单链表， 实现商品增删改查， 并且也可以针对商品已编号进行排序， 完成排行榜
 
+[代码](./src/main/java/com/xi/linear线性表/GoodsNode.java)
+
 ```java
 public class GoodsNode {
     public int gId;
@@ -2132,6 +2138,8 @@ public class GoodsNode {
     }
 }
 ```
+
+[代码](./src/main/java/com/xi/linear线性表/GLinkedList.java)
 
 ```java
 public class GLinkedList {
@@ -2239,3 +2247,293 @@ public class GLinkedList {
 }
 ```
 
+### 双向链表
+
+#### 双向链表介绍
+
+双向链表也叫双链表， 是链表的一种， 它的每个数据结点中都有两个指针， 分别指向直接后继和直接前驱。 所以， 从双向链表中的任意一个结点开始， 都可以很方便地访问它的前驱结点和后继结点。
+
+![image-20240914163514394](./MDImg/image-20240914163514394.png)
+
+![image-20240914163521223](./MDImg/image-20240914163521223.png)
+
+#### 双向链表案例
+
+![image-20240914163801746](./MDImg/image-20240914163801746.png)
+
+[代码](./src/main/java/com/xi/linear线性表/DLinkedList.java)
+
+```java
+public class DLinkedList<T> implements Iterable<T> {
+    // 头节点
+    private Node head;
+    // 尾节点
+    private Node last;
+    // 链表长度
+    private int N;
+
+    public static void main(String[] args) {
+        DLinkedList<String> stringDLinkedList = new DLinkedList<String>();
+        stringDLinkedList.insert("喵喵");
+        stringDLinkedList.insert("嗷呜");
+        stringDLinkedList.insert("恶龙咆哮");
+        stringDLinkedList.insert("打咩~");
+        stringDLinkedList.insert("哎嘿嘿");
+        stringDLinkedList.insert("喵帕斯");
+        stringDLinkedList.insert("嘟嘟噜");
+
+        System.out.println(stringDLinkedList.length());
+        stringDLinkedList.insert(2, "汪汪");
+        String remove = stringDLinkedList.remove(1);
+        System.out.println(remove);
+        stringDLinkedList.remove(6);
+        for (String str : stringDLinkedList) {
+            System.out.print(str + " ");
+        }
+    }
+
+    public DLinkedList() {
+        head = new Node(null, null, null);
+        last = null;
+        N = 0;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new DLLIterator();
+    }
+
+    /**
+     * 迭代器类
+     */
+    private class DLLIterator implements Iterator {
+        private Node node = head;
+        @Override
+        public boolean hasNext() {
+            return node.next != null;
+        }
+
+        @Override
+        public Object next() {
+            node = node.next;
+            return node.item;
+        }
+    }
+
+    /**
+     * 节点类
+     */
+    private class Node {
+        public T item;
+        public Node pre;// 前驱
+        public Node next;// 后继
+
+        public Node(T item, Node pre, Node next) {
+            this.item = item;
+            this.pre = pre;
+            this.next = next;
+        }
+    }
+
+    /**
+     * 清空链表
+     */
+    public void clear() {
+        last = null;
+        head.next = last;
+        head.pre = null;
+        head.item = null;
+        N = 0;
+    }
+
+    /**
+     * 判断是否为空链表
+     * @return
+     */
+    public boolean isEntry() {
+        return N == 0;
+    }
+
+    /**
+     * 获取链表的长度
+     * @return
+     */
+    public int length() {
+        return N;
+    }
+
+    /**
+     * 根据索引获取元素
+     * @param i
+     * @return
+     */
+    public T get(int i) {
+        if (i < 0 || i >= N) {
+            throw new RuntimeException("索引位置不合法");
+        }
+
+        Node temp = head.next;
+        for (int index = 0; index < i; index++) {
+            temp = temp.next;
+        }
+
+        return temp.item;
+
+    }
+
+    /**
+     * 在链表后插入节点
+     * @param t
+     */
+    public void insert(T t) {
+        // 只有一个头节点
+        if (last == null) {
+            last = new Node(t, head, null);
+            head.next = last;
+        } else {
+            // 有很多节点
+            Node oldLast = last;
+            Node node = new Node(t, oldLast, null);
+            last = node;
+            oldLast.next = last;
+        }
+        N++;
+    }
+
+    /**
+     * 在指定索引处插入节点
+     * @param i
+     * @param t
+     */
+    public void insert(int i, T t) {
+        if (i < 0 || i > N) {
+            throw new RuntimeException("索引位置不合法");
+        }
+
+        Node temp = head;
+        for (int index = 0; index < i; index++) {
+            temp = temp.next;
+        }
+
+        Node current = temp.next;// 插入位置的节点
+        Node node = new Node(t, temp, current);
+        if (current != null) {
+            current.pre = node;
+        } else {
+            last = node;
+        }
+        temp.next = node;
+        N++;
+
+    }
+
+    /**
+     * 删除指定索引处的节点并返回元素
+     * @param i
+     * @return
+     */
+    public T remove(int i) {
+        if (i < 0 || i > N) {
+            throw new RuntimeException("索引位置不合法");
+        }
+
+        Node temp = head;
+        for (int index = 0; index < i; index++) {
+            temp = temp.next;
+        }
+
+        Node current = temp.next;// 删除的元素
+        Node current_next = current.next;
+        if (current_next == null) {// 删除的是最后一个元素
+            last = temp;
+        }
+
+        temp.next = current_next;
+        if (current_next != null) {
+            current_next.pre = temp;
+        }
+        N--;
+        return current.item;
+    }
+
+    /**
+     * 查询指定元素在链表中第一次出现的索引
+     * @param t
+     * @return 该索引处的元素，没有则为-1
+     */
+    public int indexOf(T t) {
+        Node temp = head;
+        for (int index = 0; temp.next != null; index++) {
+            temp = temp.next;
+            if (temp.next.item.equals(t)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 获取链表的头节点
+     * @return head节点d的下一节点元素
+     */
+    public T getFirst() {
+        if (isEntry()) {
+            return null;
+        }
+        return head.next.item;
+    }
+
+    /**
+     * 获取链表的尾节点
+     * @return
+     */
+    public T getLast() {
+        if (isEntry()) {
+            return null;
+        }
+        return last.item;
+    }
+}
+```
+
+### 链表翻转
+
+如何把一个(单)链表翻转设计  
+
+**案例:**
+
+原链表 1-->2-->3-->4反转后 4-->3-->2-->1
+
+![image-20240914184146045](./MDImg/image-20240914184146045.png)
+
+![image-20240914184225534](./MDImg/image-20240914184225534.png)
+
+![image-20240914184218546](./MDImg/image-20240914184218546.png)
+
+[代码](./src/main/java/com/xi/linear线性表/LinkList.java)
+
+```java
+/**
+  * 反转链表 （一般来说双链表不需反转，单连表反转）
+  */
+public void reverse() {
+    if (N != 0) {
+        reverse(head.next);
+    }
+
+}
+
+public Node reverse(Node current) {
+    if (current.next == null) {
+        head.next = current;
+        return current;
+    }
+
+    Node pre = reverse(current.next);
+    pre.next = current;
+    current.next = null;
+    return current;
+}
+```
+
+### 快慢指针

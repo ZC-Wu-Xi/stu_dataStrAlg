@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * @author ZC_Wu 汐
  * @date 2024/9/12 20:25:00
- * @description 单向链表 案例一
+ * @description 链表-单向链表 案例一  包含反转链表
  */
 public class LinkList<T> implements Iterable<T>{
 
@@ -26,9 +26,14 @@ public class LinkList<T> implements Iterable<T>{
         ll.insert("f", 2);
         Iterator<Object> iterator = ll.iterator();
         while (iterator.hasNext()) {
-            System.out.println(iterator.next() + " ");
+            System.out.print(iterator.next() + " ");
         }
-        System.out.println(ll);
+        System.out.println();
+        ll.reverse();// 反转链表
+        for (Object obj : ll) {
+            System.out.print(obj + ",");
+        }
+
 
 
     }
@@ -222,4 +227,30 @@ public class LinkList<T> implements Iterable<T>{
                 ", N=" + N +
                 '}';
     }
+
+    /**
+     * 反转链表 （一般来说双链表不需反转，单连表反转）
+     */
+    public void reverse() {
+        if (N != 0) {
+            reverse(head.next);
+        }
+
+    }
+
+    public Node reverse(Node current) {
+        if (current.next == null) {
+            head.next = current;
+            return current;
+        }
+
+        Node pre = reverse(current.next);
+        pre.next = current;
+        current.next = null;
+        return current;
+
+
+    }
 }
+
+

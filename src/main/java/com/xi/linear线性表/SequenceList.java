@@ -24,9 +24,13 @@ public class SequenceList<T> implements Iterable {
         stringSequenceList.remove(2);
         String s = stringSequenceList.get(1);
 
-        Iterator iterator = stringSequenceList.iterator();
-        while (iterator.hasNext()) {
-            System.out.print(iterator.next() + ", ");
+//        Iterator iterator = stringSequenceList.iterator();
+//        while (iterator.hasNext()) {
+//            System.out.print(iterator.next() + ", ");
+//        }
+        for (Object str :
+                stringSequenceList) {
+            System.out.println(str);
         }
     }
 
