@@ -2496,7 +2496,7 @@ public class DLinkedList<T> implements Iterable<T> {
 }
 ```
 
-### 链表翻转
+### 单向链表翻转
 
 如何把一个(单)链表翻转设计  
 
@@ -2517,7 +2517,7 @@ public class DLinkedList<T> implements Iterable<T> {
   * 反转链表 （一般来说双链表不需反转，单连表反转）
   */
 public void reverse() {
-    if (N != 0) {
+    if (N != 0) {// N: 链表长度
         reverse(head.next);
     }
 
@@ -2537,3 +2537,118 @@ public Node reverse(Node current) {
 ```
 
 ### 快慢指针
+
+快慢指针指的是定义两个指针，这两个指针的移动速度一块一慢，以此来制造出自己想要的差值，这个差值可以然我们找到链表上相应的结点。一般情况下，快指针的移动步长为慢指针的两倍  
+
+#### 快慢指针找中间值
+
+**需求**：利用快慢指针，找出链表的中间元素值并返回。我们把一个链表看成一个跑道，假设 a 的速度是 b 的两倍，那么当 a 跑完全程后，b 刚好跑一半，以此来达到找到中间节点的目的。如下图，最开始，slow 与 fast 指针都指向链表第一个节点，然后 slow 每次移动一个指针，fast 每次移动两个指针。
+
+![image-20240915145318832](./MDImg/image-20240915145318832.png)
+
+```java
+public class Node<T> {
+    public T item;// 存储数据
+    public Node next;// 下一节点
+
+    public Node(T item, Node next) {
+        this.item = item;
+        this.next = next;
+    }
+}
+```
+
+```java
+public class FastAndSlowLinkedList {
+    public static void main(String[] args) {
+        Node<String> n1 = new Node("1", null);
+        Node<String> n2 = new Node("2", null);
+        Node<String> n3 = new Node("3", null);
+        Node<String> n4 = new Node("4", null);
+        Node<String> n5 = new Node("5", null);
+
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+
+        System.out.println("中间值:" + getMid(n1));
+    }
+
+    /**
+     * 使用快慢指针找链表的中间值
+     * @param first
+     * @return
+     */
+    public static String getMid(Node first) {
+        Node<String> slow = first;// 慢指针
+        Node<String> fast = first;// 快指针
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        // 跳出循环时快指针已经走完了，慢指针指向的位置就是中间值
+        return slow.item;
+    }
+}
+```
+
+#### 快慢指针判断单向链表是否有环
+
+解题思想：快慢指针如果是执行在无环的单链表中， 那么快慢指针是永远都不可能相遇的， 因为快指针始终在前面， 但是如果存在带环的链表， 那么就可能存在一种情况， 就是**快慢指针可能会在某一个节点再次相遇**
+
+![image-20240915145844793](./MDImg/image-20240915145844793.png)
+
+```java
+public class Node<T> {
+    public T item;// 存储数据
+    public Node next;// 下一节点
+
+    public Node(T item, Node next) {
+        this.item = item;
+        this.next = next;
+    }
+}
+```
+
+```java
+public class FastAndSlowLinkedList {
+    public static void main(String[] args) {
+        Node<String> n1 = new Node("1", null);
+        Node<String> n2 = new Node("2", null);
+        Node<String> n3 = new Node("3", null);
+        Node<String> n4 = new Node("4", null);
+        Node<String> n5 = new Node("5", null);
+
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+
+        System.out.println(isCircle(n1));
+
+    }
+
+    /**
+     * 判断链表是否存在环
+     * @param first
+     * @return
+     */
+    public static boolean isCircle(Node first) {
+        Node<String> slow = first;
+        Node<String> fast = first;
+        boolean flag = false;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            flag = slow.equals(fast);
+            if (flag) {
+                break;
+            }
+        }
+        return flag;
+    }
+}
+```
+
