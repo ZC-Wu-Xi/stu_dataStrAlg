@@ -1844,8 +1844,6 @@ public class SequenceList<T> implements Iterable {
 
 链表(Linked List)是一种物理存储单元上非连续， 非顺序的存储结构， 数据元素的逻辑顺序是通过链表中的指针链接实现的
 
-:arrow_down::arrow_down:点击页面上方`LL`演示**链表**:arrow_down::arrow_down:
-
 <iframe src="https://visualgo.net/zh/list" width="100%" height="800px" frameborder="0"></iframe>
 
 - 链表：
@@ -1903,6 +1901,10 @@ public class Node<T> {
 单向链表是链表的一种，它由多个结点组成，每个结点都由一个数据域和一个指针域组成，数据域用来存储数据，指针域用来指向其后继结点。链表的头结点的数据域不存储数据，指针域指向第一个真正存储数据的结点。  
 
 ![image-20240912202804941](./MDImg/image-20240912202804941.png)
+
+:arrow_down::arrow_down:点击页面上方`LL`演示**链表**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/list" width="100%" height="800px" frameborder="0"></iframe>
 
 #### 单向链表案例
 
@@ -2256,6 +2258,10 @@ public class GLinkedList {
 ![image-20240914163514394](./MDImg/image-20240914163514394.png)
 
 ![image-20240914163521223](./MDImg/image-20240914163521223.png)
+
+:arrow_down::arrow_down:点击页面上方`DLL`演示**链表**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/list" width="100%" height="800px" frameborder="0"></iframe>
 
 #### 双向链表案例
 
@@ -2648,6 +2654,147 @@ public class FastAndSlowLinkedList {
             }
         }
         return flag;
+    }
+}
+```
+
+### 单向环形链表
+
+#### 单向环形链表介绍
+
+采用一个单项环形链表来处理（可以带表头也可以不带表头） ,具体使用头结点还是不带头结点， 后面会具体分析。  
+
+![image-20240915190549637](./MDImg/image-20240915190549637.png)
+
+#### 单向环形链表应用场景
+
+**约瑟夫问题（约瑟夫环）：**
+设编号为 1,2…， n 的 n 个人围坐一圈， 约定编号为 k(1<=k<=n)的人从 1 开始报数， 数到m 的那个人出列， 它的下一位又从 1 开始报数， 数到 m 的那个人出列， 它的下一位又从 1 开始报数， 数到 m 的那个人又出列， 依次类推， 直到所有人出列为止， 由此产生一个出队编号的序列
+
+**约瑟夫问题示意图：**
+
+![image-20240915191720699](./MDImg/image-20240915191720699.png)
+
+这个问题最**本质**其实就是环形链表的问题，围成一个圈之后，就没有结尾这就是一个典型的环形链表。一个一个顺序报数，那就是链表的遍历枚举，数到对应数字的出列，也就是循环链表的删除。
+
+#### 案例
+
+游戏规则(单向环形链表)
+ *  nums人排成一个圆圈，由编号为startNo的人开始报数，报数到countNum的人被淘汰自杀，
+ *  然后再由下一个重新报数，直到存活一人为止，此人就是赢家。
+
+```java
+public class DeathPlayer {
+    public int no;
+    public DeathPlayer next;
+
+    public DeathPlayer(int no) {
+        this.no = no;
+    }
+}
+```
+
+```java
+public class DeathCircleLinkedList {
+    private DeathPlayer first = new DeathPlayer(-1);// 规定-1为不存在
+
+    public static void main(String[] args) {
+        DeathCircleLinkedList DeathCircleLinkedList = new DeathCircleLinkedList();
+        int nums = 8;// 参与者数量
+        DeathCircleLinkedList.addDeathPlayers(nums);
+        DeathCircleLinkedList.showDeathPlayers();
+        // 2号玩家开始，数到3自杀，共有nums个玩家参与
+        DeathCircleLinkedList.countDeathPlayer(2, 3, nums);
+    }
+
+    /**
+     * 生成含有nums个节点的环形链表 nums个人开始玩这场游戏
+     * @param nums 生成nums个节点的环，其no为1-nums
+     */
+    public void addDeathPlayers(int nums) {
+        System.out.println("参赛者入场");
+        DeathPlayer temp = null;
+        for (int i = 1; i <= nums; i++) {
+            DeathPlayer DeathPlayer = new DeathPlayer(i);
+            if (i == 1) {
+                first = DeathPlayer;// 第一个节点
+                first.next = first;// 构成环
+                temp = first;// 临时节点指向第一个男孩
+            } else {
+                temp.next = DeathPlayer;
+                DeathPlayer.next = first;
+                temp = DeathPlayer;// 临时变量后移
+            }
+        }
+    }
+
+    /**
+     * 查看环形链表 查看所有参与者编号
+     */
+    public void showDeathPlayers() {
+        if (first == null) {
+            System.out.println("空链表");
+            return;
+        }
+
+        DeathPlayer temp = first;
+        System.out.print("参与者的编号为:");
+        while (true) {
+            System.out.print(temp.no + " ");
+            if (temp.next == first) {// 遍历完一遍
+                break;
+            }
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    /**
+     * 执行淘汰节点 被淘汰成员执行自杀
+     * @param startNo 从第几个参与者开始数
+     * @param countNum 数了几下
+     * @param nums 总的参与者数量
+     */
+    public void countDeathPlayer(int startNo, int countNum, int nums) {
+        System.out.println("死亡游戏规则：" + startNo + "号参与者从1开始报数，报到" + countNum + "的参与者将被淘汰自杀 然后再由下一个重新报数，直到存活一人为止");
+        System.out.println("游戏开始");
+        if (first == null || startNo < 1 || startNo > nums) {
+            System.out.println("参数有误");
+            return;
+        }
+        DeathPlayer helper = first;
+        while (true) {
+            if (helper.next == first) {
+                break;
+            }
+            helper = helper.next;
+        }
+        // while循环结束后first指向no=1的节点，helper指向no=nums的节点
+
+        // 设置从哪里开始数，把first和helper移动到开始和最后的节点上
+        for (int i = 0; i < startNo - 1; i++) {
+            first = first.next;
+            helper = helper.next;
+        }
+
+        // 开始淘汰
+        while (true) {
+            if (helper == first) {// 只剩一名参与者结束游戏
+                break;
+            }
+
+            // 往后数countNum
+            for (int i = 0; i < countNum-1; i++) {
+                first = first.next;
+                helper = helper.next;//first的前一个
+            }
+
+            System.out.printf("编号为%d的参与者被淘汰，自杀了\n", first.no);
+            // 删除数到countNum的男孩
+            first = first.next;
+            helper.next = first;
+        }
+        System.out.printf("编号为%d的参与者存活，成为了最后的winner", first.no);
     }
 }
 ```
