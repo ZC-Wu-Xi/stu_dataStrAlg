@@ -1,4 +1,4 @@
-package com.xi.linear线性表;
+package com.xi.linear线性表.单向链表;
 
 import java.util.Iterator;
 
@@ -13,7 +13,7 @@ public class LinkList<T> implements Iterable<T>{
     private int N;// 链表的长度
 
     public static void main(String[] args) {
-        LinkList<Object> ll = new LinkList<>();
+        LinkList<String> ll = new LinkList<>();
 
         ll.insert("a");
         ll.insert("b");
@@ -24,14 +24,14 @@ public class LinkList<T> implements Iterable<T>{
         System.out.println(ll.get(2));
         System.out.println(ll.remove(2));
         ll.insert("f", 2);
-        Iterator<Object> iterator = ll.iterator();
+        Iterator<String> iterator = ll.iterator();
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + " ");
         }
         System.out.println();
         ll.reverse();// 反转链表
-        for (Object obj : ll) {
-            System.out.print(obj + ",");
+        for (String str : ll) {
+            System.out.print(str + ",");
         }
 
 

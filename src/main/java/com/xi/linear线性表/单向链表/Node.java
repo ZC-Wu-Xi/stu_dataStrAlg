@@ -1,4 +1,4 @@
-package com.xi.linear线性表;
+package com.xi.linear线性表.单向链表;
 
 /**
  * @author ZC_Wu 汐

@@ -1,4 +1,4 @@
-package com.xi.linear线性表;
+package com.xi.linear线性表.顺序表;
 
 import java.util.Iterator;
 
@@ -7,7 +7,7 @@ import java.util.Iterator;
  * @date 2024/9/9 17:59:04
  * @description 顺序表数组
  */
-public class SequenceList<T> implements Iterable {
+public class SequenceList<T> implements Iterable<T> {
     private T[] eles;// 存储元素的数组
     private int N;// 线性表的长度
 
@@ -28,7 +28,7 @@ public class SequenceList<T> implements Iterable {
 //        while (iterator.hasNext()) {
 //            System.out.print(iterator.next() + ", ");
 //        }
-        for (Object str :
+        for (String str :
                 stringSequenceList) {
             System.out.println(str);
         }

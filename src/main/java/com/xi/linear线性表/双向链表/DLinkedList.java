@@ -1,4 +1,4 @@
-package com.xi.linear线性表;
+package com.xi.linear线性表.双向链表;
 
 import java.util.Iterator;
 

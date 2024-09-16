@@ -1546,7 +1546,7 @@ public class SequenceList<T> {
 上面代码基础上新增：
 
 ```java
-public class SequenceList<T> implements Iterable {
+public class SequenceList<T> implements Iterable<T> {
     
     @Override
     public Iterator iterator() {
@@ -1654,16 +1654,7 @@ public T remove(int i) {
 #### 顺序表案例完整代码
 
 ```java
-package com.xi.sort排序算法;
-
-import java.util.Iterator;
-
-/**
- * @author ZC_Wu 汐
- * @date 2024/9/9 17:59:04
- * @description 顺序表数组
- */
-public class SequenceList<T> implements Iterable {
+public class SequenceList<T> implements Iterable<T> {
     private T[] eles;// 存储元素的数组
     private int N;// 线性表的长度
 
@@ -1681,6 +1672,11 @@ public class SequenceList<T> implements Iterable {
         Iterator iterator = stringSequenceList.iterator();
         while (iterator.hasNext()) {
             System.out.print(iterator.next() + ", ");
+        }
+        
+        for (String str :
+                stringSequenceList) {
+            System.out.println(str);
         }
     }
 
@@ -1870,8 +1866,6 @@ public class SequenceList<T> implements Iterable {
 
 #### 链表实现
 
-[代码](src/main/java/com/xi/linear线性表/Node.java)
-
 ```java
 public class Node<T> {
     public T item;// 存储数据
@@ -1910,8 +1904,6 @@ public class Node<T> {
 
 ##### 1. 单向链表案例一
 
-[代码](./src/main/java/com/xi/linear线性表/LinkList.java)
-
 ```java
 public class LinkList<T> implements Iterable<T>{
     private Node head;// 链表头节点
@@ -1932,6 +1924,9 @@ public class LinkList<T> implements Iterable<T>{
             System.out.println(iterator.next() + " ");
         }
         System.out.println(ll);
+        for (String str : ll) {
+            System.out.print(str + ",");
+        }
     }
     public LinkList() {
         head = new Node(null, null);
@@ -2125,8 +2120,6 @@ LinkList{head=Node{item=null, next=Node{item=a, next=Node{item=b, next=Node{item
 
 根据带有头部的单链表， 实现商品增删改查， 并且也可以针对商品已编号进行排序， 完成排行榜
 
-[代码](./src/main/java/com/xi/linear线性表/GoodsNode.java)
-
 ```java
 public class GoodsNode {
     public int gId;
@@ -2140,8 +2133,6 @@ public class GoodsNode {
     }
 }
 ```
-
-[代码](./src/main/java/com/xi/linear线性表/GLinkedList.java)
 
 ```java
 public class GLinkedList {
@@ -2516,8 +2507,6 @@ public class DLinkedList<T> implements Iterable<T> {
 
 ![image-20240914184218546](./MDImg/image-20240914184218546.png)
 
-[代码](./src/main/java/com/xi/linear线性表/LinkList.java)
-
 ```java
 /**
   * 反转链表 （一般来说双链表不需反转，单连表反转）
@@ -2677,7 +2666,7 @@ public class FastAndSlowLinkedList {
 
 这个问题最**本质**其实就是环形链表的问题，围成一个圈之后，就没有结尾这就是一个典型的环形链表。一个一个顺序报数，那就是链表的遍历枚举，数到对应数字的出列，也就是循环链表的删除。
 
-#### 案例
+#### 死亡游戏案例
 
 游戏规则(单向环形链表)
  *  nums人排成一个圆圈，由编号为startNo的人开始报数，报数到countNum的人被淘汰自杀，
@@ -2795,6 +2784,243 @@ public class DeathCircleLinkedList {
             helper.next = first;
         }
         System.out.printf("编号为%d的参与者存活，成为了最后的winner", first.no);
+    }
+}
+```
+
+控制台输出
+
+```shell
+参赛者入场
+参与者的编号为:1 2 3 4 5 6 7 8 
+死亡游戏规则：2号参与者从1开始报数，报到3的参与者将被淘汰自杀 然后再由下一个重新报数，直到存活一人为止
+游戏开始
+编号为4的参与者被淘汰，自杀了
+编号为7的参与者被淘汰，自杀了
+编号为2的参与者被淘汰，自杀了
+编号为6的参与者被淘汰，自杀了
+编号为3的参与者被淘汰，自杀了
+编号为1的参与者被淘汰，自杀了
+编号为5的参与者被淘汰，自杀了
+编号为8的参与者存活，成为了最后的winner
+```
+
+## 三. 栈
+
+### 栈的介绍
+
+**栈是限制插入和删除只能在一个位置上进行的线性表**。 其中， 允许插入和删除的一端位于表的末端， 叫做栈顶（top） ， 不允许插入和删除的另一端叫做栈底（bottom） 。 对栈的基本操作有 **PUSH（压栈） 和 POP （出栈）** ， 前者相当于表的插入操作（向栈顶插入一个元素），后者则是删除操作（删除一个栈顶元素） 。 栈是一种后进先出（LIFO） 的数据结构， 最先被删除的是最近压栈的元素。
+
+![image-20240916151859424](./MDImg/image-20240916151859424.png)
+
+栈实现由于栈是一个表， 因此任何实现表的方法都可以用来实现栈。 主要有两种方式， 链表实现和数组实现。
+
+:arrow_down::arrow_down:点击页面上方`栈`演示**栈**:arrow_down::arrow_down:
+
+<iframe src="https://visualgo.net/zh/list" width="100%" height="800px" frameborder="0"></iframe>
+
+### 链表实现栈
+
+链表实现栈可以使用单链表来实现栈。 通过在表顶端插入一个元素来实现 PUSH， 通过删除表顶端元素来实现 POP。 使用链表方式实现的栈又叫动态栈。 动态栈有链表的部分特性， 即元素与元素之间在物理存储上可以不连续， 但是功能有些受限制， 动态栈只能在栈顶处进行插入和删除操作， 不能在栈尾或栈中间进行插入和删除操作
+
+![image-20240916151601566](./MDImg/image-20240916151601566.png)
+
+```java
+public class Stack<T> implements Iterable<T> {
+    private Node head;
+    private int N;
+
+    public static void main(String[] args) {
+        Stack<String> stringStack = new Stack<>();
+        stringStack.push("武则天");
+        stringStack.push("孙尚香");
+        stringStack.push("小鲁班");
+        stringStack.push("韩信");
+        stringStack.pop();
+
+        for (String str : stringStack) {
+            System.out.print(str + " ");
+        }
+        System.out.println();
+    }
+    public Stack() {
+        head = new Node(null, null);
+        N = 0;
+    }
+
+    /**
+     * 判断是否为空
+     * @return
+     */
+    public boolean isEmpty() {
+        return N == 0;
+    }
+
+    /**
+     * 获取栈中元素个数
+     * @return
+     */
+    public int size() {
+        return N;
+    }
+
+    /**
+     * 弹栈，获取栈中的第一个元素
+     * @return
+     */
+    public T pop() {
+        Node firstNode = head.next;// 需要删除的元素
+        if (firstNode == null) {
+            return null;
+        }
+        // 删除第一个节点
+        head.next = firstNode.next;
+        N--;
+        return firstNode.item;
+    }
+
+    /**
+     * 压栈，放入元素
+     * @param t
+     */
+    public void push(T t) {
+        Node firstNode = head.next;
+        Node node = new Node(t, firstNode);
+        head.next = node;
+        N++;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new MyIterator();
+    }
+
+    /**
+     * 内部类 节点对象
+     */
+    public class Node {
+
+        private T item;
+        private Node next;
+
+        public Node(T item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    /**
+     * 迭代器
+     */
+    public class MyIterator implements Iterator {
+        private Node n = head;
+        @Override
+        public boolean hasNext() {
+            return n.next != null;
+        }
+
+        @Override
+        public Object next() {
+            Node node = n.next;
+            n = n.next;
+            return node.item;
+        }
+    }
+}
+```
+
+### 数组实现栈
+
+栈也可以用数组来实现。 使用数组方式实现的栈叫静态栈。  
+
+使用数组来模拟栈的使用:
+
+![image-20240916162310048](./MDImg/image-20240916162310048.png)
+
+```java
+public class ArrayStack {
+    // 栈
+    private int[] stack;
+    // 大小
+    private int maxStack;
+    //top指针 始终指向栈顶
+    private int top = -1;
+
+    public static void main(String[] args) {
+        ArrayStack arrayStack = new ArrayStack(6);
+        arrayStack.push(1);
+        arrayStack.push(2);
+        arrayStack.push(3);
+        arrayStack.push(4);
+        arrayStack.push(5);
+        arrayStack.push(6);
+
+        arrayStack.show();
+
+        arrayStack.push(7);
+
+        arrayStack.pop();
+        arrayStack.push(8);
+        arrayStack.show();
+    }
+
+    public ArrayStack(int maxStack) {
+        this.maxStack = maxStack;
+        this.stack = new int[maxStack];
+    }
+
+    /**
+     * 判断栈是否已满
+     * @return
+     */
+    public boolean isFull() {
+        return top == maxStack-1;
+    }
+
+    /**
+     * 判断是否为空栈
+     * @return
+     */
+    public boolean isEmpty() {
+        return top == -1;
+    }
+
+    /**
+     * 压栈
+     * @param val
+     */
+    public void push(int val) {
+        if (isFull()) {
+            System.out.println("栈已满，添加数据失败");
+            return;
+        }
+
+        top++;
+        stack[top] = val;
+    }
+
+    /**
+     * 弹栈
+     * @return
+     */
+    public int pop() {
+        if (isEmpty()) {
+           throw new RuntimeException("空栈无法返回");
+        }
+        int val = stack[top];
+        top--;
+        return val;
+    }
+
+    /**
+     * 遍历栈中元素
+     */
+    public void show() {
+        System.out.print("栈中的元素：");
+        for (int i = 0; i < stack.length; i++) {
+            System.out.print(stack[i] + " ");
+        }
+        System.out.println();
     }
 }
 ```
