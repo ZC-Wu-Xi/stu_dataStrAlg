@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * @author ZC_Wu 汐
  * @date 2024/9/16 15:39:15
- * @description 栈 链表实现栈
+ * @description 栈 链表实现栈 + 括号匹配案例
  */
 public class Stack<T> implements Iterable<T> {
     private Node head;
@@ -23,10 +23,49 @@ public class Stack<T> implements Iterable<T> {
             System.out.print(str + " ");
         }
         System.out.println();
+
+        // 括号是否匹配
+        boolean match = isMatch("(不知火舞))");
+        System.out.println(match);
     }
     public Stack() {
         head = new Node(null, null);
         N = 0;
+    }
+
+    /**
+     * 字符串括号是否匹配
+     * @param str 带判断的字符串
+     * @return 括号是否匹配
+     */
+    public static boolean isMatch(String str) {
+        Stack<String> stack = new Stack<>();
+
+        // 1. 扫描字符串
+        for (int i = 0; i < str.length(); i++) {
+            // 2. 从左向右获取每一个字符
+            String currStr = str.charAt(i) + "";
+            // 3. 判断当前字符是否是左括号
+            if (currStr.equals("(")) {
+                // 4. 如果是左括号，则放入栈中
+                stack.push(currStr);
+            } else if (currStr.equals(")")) {
+                // 5. 如果是右括号，则去栈中弹出对应左括号
+                String s = stack.pop();
+                // 6. 如果谈出来的是空值，则表示该字符串不匹配
+                if (s == null) {
+                    return false;
+                }
+            }
+        }
+
+       if (stack.size() == 0) {
+           //  7. 如果字符串遍历结束，栈中为空，则表示字符串括号匹配
+           return true;
+       } else {
+           // 8. 如果字符串遍历结束，栈中仍然还存在左括号，则表示字符串括号不匹配
+           return false;
+       }
     }
 
     /**
