@@ -3346,3 +3346,147 @@ public static boolean isMatch(String str) {
 }
 ```
 
+## 四. 队列
+
+### 队列介绍
+
+队列是一种特殊的线性表， 特殊之处在于它只允许在表的前端（front） 进行删除操作， 而在表的后端（rear） 进行插入操作， 和栈一样， 队列是一种操作受限制的线性表。 进行插入操作的端称为队尾， 进行删除操作的端称为队头
+
+![image-20240923203055000](./MDImg/image-20240923203055000.png)
+
+- 队列是一个有序列表， 可以用数组和链表来实现
+- 队列先进先出， 即是先入队列的数据最先被取出， 后存入的数据后取出
+
+api:
+
+- 类名: Queue
+- 构造方法: Queue()：创建 Queue 对象
+- 成员方法: 
+  1. public boolean isEmpty()：判断队列是否为空，是返回 true，否返回 false
+  2. public int size():获取队列中元素的个数
+  3. public T dequeue():从队列中拿出一个元素
+  4. public void enqueue(T t)：往队列中插入一个元素
+- 成员变量
+  1. private Node head:记录首结点
+  2. private int N:当前栈的元素个数
+  3. private Node last:记录最后一个结点:
+
+### 基于链表实现队列
+
+```java
+public class Queue<T> implements Iterable<T>{
+    private Node head;
+    private Node last;
+    private int N;
+
+    public static void main(String[] args) {
+        Queue<String> queue = new Queue<>();
+        queue.enqueue("李彦宏");
+        queue.enqueue("马化腾");
+        queue.enqueue("马云");
+
+        for (String str : queue) {
+            System.out.print(str + " ");
+        }
+        System.out.println();
+
+        System.out.println(queue.dequeue());
+        queue.enqueue("刘强东");
+
+        for (String str : queue) {
+            System.out.print(str + " ");
+        }
+        System.out.println();
+    }
+
+    public Queue() {
+        head = new Node(null, null);
+        last = null;
+        N = 0;
+    }
+
+    /**
+     * 判断队列是否为空
+     * @return
+     */
+    public boolean isEmpty() {
+        return N == 0;
+    }
+
+    /**
+     * 返回队列的长度
+     * @return
+     */
+    public int size() {
+        return N;
+    }
+
+    /**
+     * 从队列中获取一个元素并删除
+     * @return
+     */
+    public T dequeue() {
+        if (isEmpty()) {
+            return null;
+        }
+        Node oldFirst = head.next;
+        head.next = oldFirst.next;
+        N--;
+        if (isEmpty()) {
+            last = null;
+        }
+        return oldFirst.item;
+
+    }
+
+    /**
+     * 插入元素
+     * @param t
+     */
+    public void enqueue(T t) {
+        if (last == null) {
+            last = new Node(t, null);
+            head.next = last;
+        } else {
+            Node currNode = new Node(t, null);
+            last.next = currNode;
+            last = currNode;
+        }
+        N++;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+
+    private class MyIterator implements Iterator {
+        private Node n = head;
+        @Override
+        public boolean hasNext() {
+            return n.next != null;
+        }
+
+        @Override
+        public Object next() {
+            Node node = n.next;
+            n = n.next;
+            return node.item;
+        }
+    }
+
+    // 内部类 节点对象
+    public class Node {
+
+        private T item;
+        private Node next;
+
+        public Node(T item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+}
+```
+
+### 基于数组实现队列

@@ -127,8 +127,6 @@ public class Stack<T> implements Iterable<T> {
             this.item = item;
             this.next = next;
         }
-
-
     }
 
     /**
