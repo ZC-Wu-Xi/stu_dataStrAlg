@@ -3,7 +3,8 @@ package com.xi.binary非线性表.tree;
 /**
  * @author ZC_Wu 汐
  * @date 2024/12/5 20:17
- * @description 堆的排序
+ * @description 生成堆及堆排序
+ * 测试类在HeapTest.java中
  */
 public class HeapSort {
     /*
@@ -33,6 +34,24 @@ public class HeapSort {
     }
 
     /**
+     * 使用堆进行排序
+     * @param source
+     */
+    public static void sort(Comparable[] source) {
+        Comparable[] heap = new Comparable[source.length + 1]; // source从0开始存元素的
+        createHeap(heap, source); // 根据source创建一个堆数组
+
+        int N = heap.length - 1;
+        while (N != 1) {
+            exch(heap, 1, N); // 将堆顶元素和堆的最后一个元素交换
+            N--;
+            sink(heap, 1, N); // 下沉调整位置
+        }
+
+        System.arraycopy(heap, 1, source, 0, source.length); // 将堆数组中的元素拷贝到源数组中
+    }
+
+    /**
      * 下沉调整位置
      * @param heap   堆数组
      * @param target 目标索引(要下沉的节点索引)
@@ -55,6 +74,9 @@ public class HeapSort {
             if (!less(heap, target, max)) { // 当前节点大于等于最大值
                 break;
             }
+
+            exch(heap, target, max); // 交换位置
+            target = max;
         }
     }
 
